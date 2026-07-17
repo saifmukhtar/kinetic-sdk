@@ -1,0 +1,11 @@
+# General
+.DS_Store
+*.log
+
+# Node
+node_modules/
+dist/
+
+# Generated OpenAPI Generator files
+.openapi-generator/
+.openapi-generator-ignore
