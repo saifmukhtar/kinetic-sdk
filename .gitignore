@@ -1,11 +1,12 @@
-# General
+# Rust
+/rust/target/
+**/*.rs.bk
+
+# TypeScript
+/typescript/node_modules/
+/typescript/dist/
+
+# Misc
 .DS_Store
-*.log
-
-# Node
-node_modules/
-dist/
-
-# Generated OpenAPI Generator files
+.env
 .openapi-generator/
-.openapi-generator-ignore
