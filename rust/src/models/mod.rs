@@ -1,3 +1,4 @@
+#![allow(non_snake_case)]
 pub mod authorized_kid;
 pub use self::authorized_kid::AuthorizedKid;
 pub mod authorized_manifest;
