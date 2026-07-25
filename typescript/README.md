@@ -63,6 +63,8 @@ async function broadcastArticle() {
 - **Language**: TypeScript (ES6+)
 - **Network**: Local HTTP interactions with `kinetic-daemon`.
 
-## 📜 License
+## 📜 License & Links
 
-[Apache License 2.0](LICENSE) - Built for the stateless web.
+- **Author**: [Saif Mukhtar](https://saifmukhtar.dev)
+- **GitHub**: [Kinetic Network](https://github.com/saifmukhtar/kinetic)
+- **License**: [Apache License 2.0](LICENSE) - Built for the stateless web.
