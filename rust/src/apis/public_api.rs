@@ -15,10 +15,38 @@ use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
 
+/// struct for typed errors of method [`gossip_subscribe_topic_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GossipSubscribeTopicGetError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`governance_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GovernanceGetError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`health_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum HealthGetError {
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`network_status_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum NetworkStatusGetError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`peer_id_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PeerIdGetError {
     UnknownValue(serde_json::Value),
 }
 
@@ -36,6 +64,13 @@ pub enum ResolveNameGetError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`time_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TimeGetError {
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`zone_name_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -43,6 +78,99 @@ pub enum ZoneNameGetError {
     UnknownValue(serde_json::Value),
 }
 
+
+pub async fn gossip_subscribe_topic_get(configuration: &configuration::Configuration, topic: &str) -> Result<String, Error<GossipSubscribeTopicGetError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_path_topic = topic;
+
+    let uri_str = format!("{}/gossip/subscribe/{topic}", configuration.base_path, topic=crate::apis::urlencode(p_path_topic));
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `String`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `String`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<GossipSubscribeTopicGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub async fn governance_get(configuration: &configuration::Configuration, ) -> Result<reqwest::Response, Error<GovernanceGetError>> {
+
+    let uri_str = format!("{}/governance", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        Ok(resp)
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<GovernanceGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub async fn health_get(configuration: &configuration::Configuration, ) -> Result<serde_json::Value, Error<HealthGetError>> {
+
+    let uri_str = format!("{}/health", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `serde_json::Value`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `serde_json::Value`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<HealthGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
 
 pub async fn network_status_get(configuration: &configuration::Configuration, ) -> Result<serde_json::Value, Error<NetworkStatusGetError>> {
 
@@ -74,6 +202,40 @@ pub async fn network_status_get(configuration: &configuration::Configuration, ) 
     } else {
         let content = resp.text().await?;
         let entity: Option<NetworkStatusGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub async fn peer_id_get(configuration: &configuration::Configuration, ) -> Result<String, Error<PeerIdGetError>> {
+
+    let uri_str = format!("{}/peer_id", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Ok(content),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `String`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<PeerIdGetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -146,6 +308,40 @@ pub async fn resolve_name_get(configuration: &configuration::Configuration, name
     } else {
         let content = resp.text().await?;
         let entity: Option<ResolveNameGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub async fn time_get(configuration: &configuration::Configuration, ) -> Result<serde_json::Value, Error<TimeGetError>> {
+
+    let uri_str = format!("{}/time", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `serde_json::Value`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `serde_json::Value`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<TimeGetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
