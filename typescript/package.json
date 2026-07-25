@@ -1,14 +1,17 @@
 {
-  "name": "@kinetic/sdk-ts",
+  "name": "@kinetic-sdk/ts",
   "version": "0.1.0",
   "description": "TypeScript client SDK for the Kinetic Daemon",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },
-  "author": "",
+  "author": "Saif Mukhtar <saifmukhtar20@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {},
   "devDependencies": {
