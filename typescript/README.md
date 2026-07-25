@@ -8,7 +8,7 @@
 
 <br />
 
-> **Military Grade Security.** No databases. No central servers. Just raw P2P cryptographic gossip.
+> **Cryptographically Secure.** No databases. No central servers. Just raw P2P cryptographic gossip.
 
 ## 📖 Overview
 
