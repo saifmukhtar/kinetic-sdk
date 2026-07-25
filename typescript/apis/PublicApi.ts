@@ -29,6 +29,10 @@ import {
     RevealToJSON,
 } from '../models/Reveal';
 
+export interface GossipSubscribeTopicGetRequest {
+    topic: string;
+}
+
 export interface ResolveKidDidGetRequest {
     did: string;
 }
@@ -45,6 +49,129 @@ export interface ZoneNameGetRequest {
  * 
  */
 export class PublicApi extends runtime.BaseAPI {
+
+    /**
+     * Creates request options for gossipSubscribeTopicGet without sending the request
+     */
+    async gossipSubscribeTopicGetRequestOpts(requestParameters: GossipSubscribeTopicGetRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['topic'] == null) {
+            throw new runtime.RequiredError(
+                'topic',
+                'Required parameter "topic" was null or undefined when calling gossipSubscribeTopicGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/gossip/subscribe/{topic}`;
+        urlPath = urlPath.replace('{topic}', encodeURIComponent(String(requestParameters['topic'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
+     */
+    async gossipSubscribeTopicGetRaw(requestParameters: GossipSubscribeTopicGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        const requestOptions = await this.gossipSubscribeTopicGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
+     */
+    async gossipSubscribeTopicGet(requestParameters: GossipSubscribeTopicGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.gossipSubscribeTopicGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for governanceGet without sending the request
+     */
+    async governanceGetRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/governance`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get current governance state
+     */
+    async governanceGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
+        const requestOptions = await this.governanceGetRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.BlobApiResponse(response);
+    }
+
+    /**
+     * Get current governance state
+     */
+    async governanceGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
+        const response = await this.governanceGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for healthGet without sending the request
+     */
+    async healthGetRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/health`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get daemon health status
+     */
+    async healthGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        const requestOptions = await this.healthGetRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Get daemon health status
+     */
+    async healthGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.healthGetRaw(initOverrides);
+        return await response.value();
+    }
 
     /**
      * Creates request options for networkStatusGet without sending the request
@@ -80,6 +207,47 @@ export class PublicApi extends runtime.BaseAPI {
      */
     async networkStatusGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
         const response = await this.networkStatusGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for peerIdGet without sending the request
+     */
+    async peerIdGetRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/peer_id`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get local peer ID
+     */
+    async peerIdGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        const requestOptions = await this.peerIdGetRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Get local peer ID
+     */
+    async peerIdGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.peerIdGetRaw(initOverrides);
         return await response.value();
     }
 
@@ -170,6 +338,43 @@ export class PublicApi extends runtime.BaseAPI {
      */
     async resolveNameGet(requestParameters: ResolveNameGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Reveal> {
         const response = await this.resolveNameGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for timeGet without sending the request
+     */
+    async timeGetRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/time`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get verified Kinetic network time
+     */
+    async timeGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        const requestOptions = await this.timeGetRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Get verified Kinetic network time
+     */
+    async timeGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.timeGetRaw(initOverrides);
         return await response.value();
     }
 

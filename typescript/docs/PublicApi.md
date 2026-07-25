@@ -4,11 +4,195 @@ All URIs are relative to *http://127.0.0.1:16002/api*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**gossipSubscribeTopicGet**](PublicApi.md#gossipsubscribetopicget) | **GET** /gossip/subscribe/{topic} | Subscribe to a Gossipsub topic via Server-Sent Events (SSE) |
+| [**governanceGet**](PublicApi.md#governanceget) | **GET** /governance | Get current governance state |
+| [**healthGet**](PublicApi.md#healthget) | **GET** /health | Get daemon health status |
 | [**networkStatusGet**](PublicApi.md#networkstatusget) | **GET** /network-status | Get network status |
+| [**peerIdGet**](PublicApi.md#peeridget) | **GET** /peer_id | Get local peer ID |
 | [**resolveKidDidGet**](PublicApi.md#resolvekiddidget) | **GET** /resolve-kid/{did} | Resolve a KID |
 | [**resolveNameGet**](PublicApi.md#resolvenameget) | **GET** /resolve/{name} | Resolve a Kinetic name |
+| [**timeGet**](PublicApi.md#timeget) | **GET** /time | Get verified Kinetic network time |
 | [**zoneNameGet**](PublicApi.md#zonenameget) | **GET** /zone/{name} | Get local DNS zone file |
 
+
+
+## gossipSubscribeTopicGet
+
+> string gossipSubscribeTopicGet(topic)
+
+Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PublicApi,
+} from '';
+import type { GossipSubscribeTopicGetRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new PublicApi();
+
+  const body = {
+    // string
+    topic: topic_example,
+  } satisfies GossipSubscribeTopicGetRequest;
+
+  try {
+    const data = await api.gossipSubscribeTopicGet(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **topic** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `text/event-stream`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | SSE Stream |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## governanceGet
+
+> Blob governanceGet()
+
+Get current governance state
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PublicApi,
+} from '';
+import type { GovernanceGetRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new PublicApi();
+
+  try {
+    const data = await api.governanceGet();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**Blob**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/octet-stream`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Governance state binary data |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## healthGet
+
+> object healthGet()
+
+Get daemon health status
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PublicApi,
+} from '';
+import type { HealthGetRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new PublicApi();
+
+  try {
+    const data = await api.healthGet();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Health status object |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## networkStatusGet
@@ -64,6 +248,63 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Network status object |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## peerIdGet
+
+> string peerIdGet()
+
+Get local peer ID
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PublicApi,
+} from '';
+import type { PeerIdGetRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new PublicApi();
+
+  try {
+    const data = await api.peerIdGet();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `text/plain`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Peer ID string |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -194,6 +435,63 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Found Reveal |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## timeGet
+
+> object timeGet()
+
+Get verified Kinetic network time
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PublicApi,
+} from '';
+import type { TimeGetRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new PublicApi();
+
+  try {
+    const data = await api.timeGet();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Kinetic time object |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

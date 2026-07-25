@@ -27,3 +27,7 @@ jobs:
     - name: Build SDK
       working-directory: ./typescript
       run: npm run build
+
+    - name: Build Rust SDK
+      working-directory: ./rust
+      run: cargo check
