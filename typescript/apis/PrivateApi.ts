@@ -358,6 +358,53 @@ export class PrivateApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for internalAtlasSyncPost without sending the request
+     */
+    async internalAtlasSyncPostRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/internal/atlas/sync`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Requires Atlas or Admin role.
+     * Trigger a synchronization of the foreign TLD bridge
+     */
+    async internalAtlasSyncPostRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
+        const requestOptions = await this.internalAtlasSyncPostRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PublishResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Requires Atlas or Admin role.
+     * Trigger a synchronization of the foreign TLD bridge
+     */
+    async internalAtlasSyncPost(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
+        const response = await this.internalAtlasSyncPostRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Creates request options for ownedNamesGet without sending the request
      */
     async ownedNamesGetRequestOpts(): Promise<runtime.RequestOpts> {

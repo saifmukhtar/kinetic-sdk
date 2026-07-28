@@ -8,6 +8,7 @@ All URIs are relative to *http://127.0.0.1:16002/api*
 | [**configGet**](PrivateApi.md#configget) | **GET** /config | Get config |
 | [**configPost**](PrivateApi.md#configpostoperation) | **POST** /config | Update config |
 | [**gossipPublishTopicPost**](PrivateApi.md#gossippublishtopicpost) | **POST** /gossip/publish/{topic} | Broadcast a payload to a Gossipsub topic |
+| [**internalAtlasSyncPost**](PrivateApi.md#internalatlassyncpost) | **POST** /internal/atlas/sync | Trigger a synchronization of the foreign TLD bridge |
 | [**ownedNamesGet**](PrivateApi.md#ownednamesget) | **GET** /owned-names | Get list of locally owned names |
 | [**publishGovernancePost**](PrivateApi.md#publishgovernancepost) | **POST** /publish-governance | Publish a Governance action to DHT |
 | [**publishKidPost**](PrivateApi.md#publishkidpost) | **POST** /publish-kid | Publish a KID to DHT |
@@ -297,6 +298,69 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Published |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## internalAtlasSyncPost
+
+> PublishResponse internalAtlasSyncPost()
+
+Trigger a synchronization of the foreign TLD bridge
+
+Requires Atlas or Admin role.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PrivateApi,
+} from '';
+import type { InternalAtlasSyncPostRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new PrivateApi(config);
+
+  try {
+    const data = await api.internalAtlasSyncPost();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**PublishResponse**](PublishResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Sync triggered |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

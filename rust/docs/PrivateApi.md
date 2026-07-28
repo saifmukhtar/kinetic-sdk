@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**config_get**](PrivateApi.md#config_get) | **GET** /config | Get config
 [**config_post**](PrivateApi.md#config_post) | **POST** /config | Update config
 [**gossip_publish_topic_post**](PrivateApi.md#gossip_publish_topic_post) | **POST** /gossip/publish/{topic} | Broadcast a payload to a Gossipsub topic
+[**internal_atlas_sync_post**](PrivateApi.md#internal_atlas_sync_post) | **POST** /internal/atlas/sync | Trigger a synchronization of the foreign TLD bridge
 [**owned_names_get**](PrivateApi.md#owned_names_get) | **GET** /owned-names | Get list of locally owned names
 [**publish_governance_post**](PrivateApi.md#publish_governance_post) | **POST** /publish-governance | Publish a Governance action to DHT
 [**publish_kid_post**](PrivateApi.md#publish_kid_post) | **POST** /publish-kid | Publish a KID to DHT
@@ -135,6 +136,33 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## internal_atlas_sync_post
+
+> models::PublishResponse internal_atlas_sync_post()
+Trigger a synchronization of the foreign TLD bridge
+
+Requires Atlas or Admin role.
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**models::PublishResponse**](PublishResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
