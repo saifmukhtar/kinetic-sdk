@@ -51,7 +51,7 @@ impl Default for Configuration {
             // No default URL — the daemon can run on any host/port.
             // Set this field explicitly before calling any API function.
             base_path: String::new(),
-            user_agent: Some("kinetic-sdk/0.1.3/rust".to_owned()),
+            user_agent: Some("kinetic-sdk/0.1.4/rust".to_owned()),
             client: reqwest::Client::new(),
             basic_auth: None,
             oauth_access_token: None,

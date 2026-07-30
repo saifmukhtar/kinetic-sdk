@@ -29,10 +29,10 @@ import {
     CommitRequestToJSON,
 } from '../models/CommitRequest';
 import {
-    type ConfigPostRequest,
-    ConfigPostRequestFromJSON,
-    ConfigPostRequestToJSON,
-} from '../models/ConfigPostRequest';
+    type DeleteVdfTask200Response,
+    DeleteVdfTask200ResponseFromJSON,
+    DeleteVdfTask200ResponseToJSON,
+} from '../models/DeleteVdfTask200Response';
 import {
     type DnsZone,
     DnsZoneFromJSON,
@@ -54,78 +54,78 @@ import {
     PublishResponseToJSON,
 } from '../models/PublishResponse';
 import {
-    type VdfRegisterPost200Response,
-    VdfRegisterPost200ResponseFromJSON,
-    VdfRegisterPost200ResponseToJSON,
-} from '../models/VdfRegisterPost200Response';
+    type UpdateConfigRequest,
+    UpdateConfigRequestFromJSON,
+    UpdateConfigRequestToJSON,
+} from '../models/UpdateConfigRequest';
+import {
+    type VdfRegister200Response,
+    VdfRegister200ResponseFromJSON,
+    VdfRegister200ResponseToJSON,
+} from '../models/VdfRegister200Response';
 import {
     type VdfRegisterRequest,
     VdfRegisterRequestFromJSON,
     VdfRegisterRequestToJSON,
 } from '../models/VdfRegisterRequest';
 import {
-    type VdfStatusTaskIdDelete200Response,
-    VdfStatusTaskIdDelete200ResponseFromJSON,
-    VdfStatusTaskIdDelete200ResponseToJSON,
-} from '../models/VdfStatusTaskIdDelete200Response';
-import {
     type VdfTaskStatus,
     VdfTaskStatusFromJSON,
     VdfTaskStatusToJSON,
 } from '../models/VdfTaskStatus';
 
-export interface CommitPostRequest {
+export interface CommitNameRequest {
     commitRequest: CommitRequest;
 }
 
-export interface ConfigPostOperationRequest {
-    configPostRequest: ConfigPostRequest;
+export interface DeleteVdfTaskRequest {
+    taskId: string;
 }
 
-export interface GossipPublishTopicPostRequest {
+export interface GetVdfStatusRequest {
+    taskId: string;
+}
+
+export interface GossipPublishRequest {
     topic: string;
     body: object;
 }
 
-export interface PublishGovernancePostRequest {
+export interface PublishGovernanceRequest {
     body: object;
 }
 
-export interface PublishKidPostRequest {
+export interface PublishKidRequest {
     authorizedKid: AuthorizedKid;
 }
 
-export interface PublishManifestPostRequest {
+export interface PublishManifestRequest {
     authorizedManifest: AuthorizedManifest;
 }
 
-export interface PublishPostRequest {
+export interface PublishNameRequest {
     publishRequest: PublishRequest;
 }
 
-export interface VdfRegisterPostRequest {
-    vdfRegisterRequest: VdfRegisterRequest;
+export interface PublishZoneRequest {
+    name: string;
 }
 
-export interface VdfRenewPostRequest {
-    nameRenewRequest: NameRenewRequest;
-}
-
-export interface VdfStatusTaskIdDeleteRequest {
-    taskId: string;
-}
-
-export interface VdfStatusTaskIdGetRequest {
-    taskId: string;
-}
-
-export interface ZoneNamePostRequest {
+export interface SaveZoneRequest {
     name: string;
     dnsZone: DnsZone;
 }
 
-export interface ZoneNamePublishPostRequest {
-    name: string;
+export interface UpdateConfigOperationRequest {
+    updateConfigRequest: UpdateConfigRequest;
+}
+
+export interface VdfRegisterOperationRequest {
+    vdfRegisterRequest: VdfRegisterRequest;
+}
+
+export interface VdfRenewRequest {
+    nameRenewRequest: NameRenewRequest;
 }
 
 /**
@@ -134,13 +134,13 @@ export interface ZoneNamePublishPostRequest {
 export class PrivateApi extends runtime.BaseAPI {
 
     /**
-     * Creates request options for commitPost without sending the request
+     * Creates request options for commitName without sending the request
      */
-    async commitPostRequestOpts(requestParameters: CommitPostRequest): Promise<runtime.RequestOpts> {
+    async commitNameRequestOpts(requestParameters: CommitNameRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['commitRequest'] == null) {
             throw new runtime.RequiredError(
                 'commitRequest',
-                'Required parameter "commitRequest" was null or undefined when calling commitPost().'
+                'Required parameter "commitRequest" was null or undefined when calling commitName().'
             );
         }
 
@@ -174,8 +174,8 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Commit a name hash to DHT
      */
-    async commitPostRaw(requestParameters: CommitPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
-        const requestOptions = await this.commitPostRequestOpts(requestParameters);
+    async commitNameRaw(requestParameters: CommitNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
+        const requestOptions = await this.commitNameRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PublishResponseFromJSON(jsonValue));
@@ -185,15 +185,70 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Commit a name hash to DHT
      */
-    async commitPost(requestParameters: CommitPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
-        const response = await this.commitPostRaw(requestParameters, initOverrides);
+    async commitName(requestParameters: CommitNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
+        const response = await this.commitNameRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for configGet without sending the request
+     * Creates request options for deleteVdfTask without sending the request
      */
-    async configGetRequestOpts(): Promise<runtime.RequestOpts> {
+    async deleteVdfTaskRequestOpts(requestParameters: DeleteVdfTaskRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['taskId'] == null) {
+            throw new runtime.RequiredError(
+                'taskId',
+                'Required parameter "taskId" was null or undefined when calling deleteVdfTask().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/vdf/status/{task_id}`;
+        urlPath = urlPath.replace('{task_id}', encodeURIComponent(String(requestParameters['taskId'])));
+
+        return {
+            path: urlPath,
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Requires VDF or Admin role.
+     * Delete a VDF task from memory
+     */
+    async deleteVdfTaskRaw(requestParameters: DeleteVdfTaskRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteVdfTask200Response>> {
+        const requestOptions = await this.deleteVdfTaskRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteVdfTask200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Requires VDF or Admin role.
+     * Delete a VDF task from memory
+     */
+    async deleteVdfTask(requestParameters: DeleteVdfTaskRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteVdfTask200Response> {
+        const response = await this.deleteVdfTaskRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getConfig without sending the request
+     */
+    async getConfigRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -221,8 +276,8 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Admin role.
      * Get config
      */
-    async configGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.configGetRequestOpts();
+    async getConfigRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.getConfigRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -232,26 +287,17 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Admin role.
      * Get config
      */
-    async configGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.configGetRaw(initOverrides);
+    async getConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.getConfigRaw(initOverrides);
     }
 
     /**
-     * Creates request options for configPost without sending the request
+     * Creates request options for getOwnedNames without sending the request
      */
-    async configPostRequestOpts(requestParameters: ConfigPostOperationRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['configPostRequest'] == null) {
-            throw new runtime.RequiredError(
-                'configPostRequest',
-                'Required parameter "configPostRequest" was null or undefined when calling configPost().'
-            );
-        }
-
+    async getOwnedNamesRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
@@ -262,51 +308,106 @@ export class PrivateApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/config`;
+        let urlPath = `/owned-names`;
 
         return {
             path: urlPath,
-            method: 'POST',
+            method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-            body: ConfigPostRequestToJSON(requestParameters['configPostRequest']),
         };
     }
 
     /**
-     * Requires Admin role.
-     * Update config
+     * Requires Publish or Admin role.
+     * Get list of locally owned names
      */
-    async configPostRaw(requestParameters: ConfigPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.configPostRequestOpts(requestParameters);
+    async getOwnedNamesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
+        const requestOptions = await this.getOwnedNamesRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse<any>(response);
     }
 
     /**
-     * Requires Admin role.
-     * Update config
+     * Requires Publish or Admin role.
+     * Get list of locally owned names
      */
-    async configPost(requestParameters: ConfigPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.configPostRaw(requestParameters, initOverrides);
+    async getOwnedNames(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
+        const response = await this.getOwnedNamesRaw(initOverrides);
+        return await response.value();
     }
 
     /**
-     * Creates request options for gossipPublishTopicPost without sending the request
+     * Creates request options for getVdfStatus without sending the request
      */
-    async gossipPublishTopicPostRequestOpts(requestParameters: GossipPublishTopicPostRequest): Promise<runtime.RequestOpts> {
+    async getVdfStatusRequestOpts(requestParameters: GetVdfStatusRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['taskId'] == null) {
+            throw new runtime.RequiredError(
+                'taskId',
+                'Required parameter "taskId" was null or undefined when calling getVdfStatus().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/vdf/status/{task_id}`;
+        urlPath = urlPath.replace('{task_id}', encodeURIComponent(String(requestParameters['taskId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Requires VDF or Admin role.
+     * Get status of a VDF task
+     */
+    async getVdfStatusRaw(requestParameters: GetVdfStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<VdfTaskStatus>> {
+        const requestOptions = await this.getVdfStatusRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => VdfTaskStatusFromJSON(jsonValue));
+    }
+
+    /**
+     * Requires VDF or Admin role.
+     * Get status of a VDF task
+     */
+    async getVdfStatus(requestParameters: GetVdfStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<VdfTaskStatus> {
+        const response = await this.getVdfStatusRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for gossipPublish without sending the request
+     */
+    async gossipPublishRequestOpts(requestParameters: GossipPublishRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['topic'] == null) {
             throw new runtime.RequiredError(
                 'topic',
-                'Required parameter "topic" was null or undefined when calling gossipPublishTopicPost().'
+                'Required parameter "topic" was null or undefined when calling gossipPublish().'
             );
         }
 
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
-                'Required parameter "body" was null or undefined when calling gossipPublishTopicPost().'
+                'Required parameter "body" was null or undefined when calling gossipPublish().'
             );
         }
 
@@ -341,8 +442,8 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Broadcast a payload to a Gossipsub topic
      */
-    async gossipPublishTopicPostRaw(requestParameters: GossipPublishTopicPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
-        const requestOptions = await this.gossipPublishTopicPostRequestOpts(requestParameters);
+    async gossipPublishRaw(requestParameters: GossipPublishRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
+        const requestOptions = await this.gossipPublishRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PublishResponseFromJSON(jsonValue));
@@ -352,113 +453,19 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Broadcast a payload to a Gossipsub topic
      */
-    async gossipPublishTopicPost(requestParameters: GossipPublishTopicPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
-        const response = await this.gossipPublishTopicPostRaw(requestParameters, initOverrides);
+    async gossipPublish(requestParameters: GossipPublishRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
+        const response = await this.gossipPublishRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for internalAtlasSyncPost without sending the request
+     * Creates request options for publishGovernance without sending the request
      */
-    async internalAtlasSyncPostRequestOpts(): Promise<runtime.RequestOpts> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/internal/atlas/sync`;
-
-        return {
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     * Requires Atlas or Admin role.
-     * Trigger a synchronization of the foreign TLD bridge
-     */
-    async internalAtlasSyncPostRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
-        const requestOptions = await this.internalAtlasSyncPostRequestOpts();
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => PublishResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Requires Atlas or Admin role.
-     * Trigger a synchronization of the foreign TLD bridge
-     */
-    async internalAtlasSyncPost(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
-        const response = await this.internalAtlasSyncPostRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for ownedNamesGet without sending the request
-     */
-    async ownedNamesGetRequestOpts(): Promise<runtime.RequestOpts> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/owned-names`;
-
-        return {
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     * Requires Publish or Admin role.
-     * Get list of locally owned names
-     */
-    async ownedNamesGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
-        const requestOptions = await this.ownedNamesGetRequestOpts();
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse<any>(response);
-    }
-
-    /**
-     * Requires Publish or Admin role.
-     * Get list of locally owned names
-     */
-    async ownedNamesGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
-        const response = await this.ownedNamesGetRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for publishGovernancePost without sending the request
-     */
-    async publishGovernancePostRequestOpts(requestParameters: PublishGovernancePostRequest): Promise<runtime.RequestOpts> {
+    async publishGovernanceRequestOpts(requestParameters: PublishGovernanceRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
-                'Required parameter "body" was null or undefined when calling publishGovernancePost().'
+                'Required parameter "body" was null or undefined when calling publishGovernance().'
             );
         }
 
@@ -492,8 +499,8 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Governance or Admin role.
      * Publish a Governance action to DHT
      */
-    async publishGovernancePostRaw(requestParameters: PublishGovernancePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
-        const requestOptions = await this.publishGovernancePostRequestOpts(requestParameters);
+    async publishGovernanceRaw(requestParameters: PublishGovernanceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
+        const requestOptions = await this.publishGovernanceRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PublishResponseFromJSON(jsonValue));
@@ -503,19 +510,19 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Governance or Admin role.
      * Publish a Governance action to DHT
      */
-    async publishGovernancePost(requestParameters: PublishGovernancePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
-        const response = await this.publishGovernancePostRaw(requestParameters, initOverrides);
+    async publishGovernance(requestParameters: PublishGovernanceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
+        const response = await this.publishGovernanceRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for publishKidPost without sending the request
+     * Creates request options for publishKid without sending the request
      */
-    async publishKidPostRequestOpts(requestParameters: PublishKidPostRequest): Promise<runtime.RequestOpts> {
+    async publishKidRequestOpts(requestParameters: PublishKidRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['authorizedKid'] == null) {
             throw new runtime.RequiredError(
                 'authorizedKid',
-                'Required parameter "authorizedKid" was null or undefined when calling publishKidPost().'
+                'Required parameter "authorizedKid" was null or undefined when calling publishKid().'
             );
         }
 
@@ -549,8 +556,8 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Publish a KID to DHT
      */
-    async publishKidPostRaw(requestParameters: PublishKidPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
-        const requestOptions = await this.publishKidPostRequestOpts(requestParameters);
+    async publishKidRaw(requestParameters: PublishKidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
+        const requestOptions = await this.publishKidRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PublishResponseFromJSON(jsonValue));
@@ -560,19 +567,19 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Publish a KID to DHT
      */
-    async publishKidPost(requestParameters: PublishKidPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
-        const response = await this.publishKidPostRaw(requestParameters, initOverrides);
+    async publishKid(requestParameters: PublishKidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
+        const response = await this.publishKidRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for publishManifestPost without sending the request
+     * Creates request options for publishManifest without sending the request
      */
-    async publishManifestPostRequestOpts(requestParameters: PublishManifestPostRequest): Promise<runtime.RequestOpts> {
+    async publishManifestRequestOpts(requestParameters: PublishManifestRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['authorizedManifest'] == null) {
             throw new runtime.RequiredError(
                 'authorizedManifest',
-                'Required parameter "authorizedManifest" was null or undefined when calling publishManifestPost().'
+                'Required parameter "authorizedManifest" was null or undefined when calling publishManifest().'
             );
         }
 
@@ -606,8 +613,8 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Publish a Capability Manifest to DHT
      */
-    async publishManifestPostRaw(requestParameters: PublishManifestPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
-        const requestOptions = await this.publishManifestPostRequestOpts(requestParameters);
+    async publishManifestRaw(requestParameters: PublishManifestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
+        const requestOptions = await this.publishManifestRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PublishResponseFromJSON(jsonValue));
@@ -617,19 +624,19 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Publish a Capability Manifest to DHT
      */
-    async publishManifestPost(requestParameters: PublishManifestPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
-        const response = await this.publishManifestPostRaw(requestParameters, initOverrides);
+    async publishManifest(requestParameters: PublishManifestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
+        const response = await this.publishManifestRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for publishPost without sending the request
+     * Creates request options for publishName without sending the request
      */
-    async publishPostRequestOpts(requestParameters: PublishPostRequest): Promise<runtime.RequestOpts> {
+    async publishNameRequestOpts(requestParameters: PublishNameRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['publishRequest'] == null) {
             throw new runtime.RequiredError(
                 'publishRequest',
-                'Required parameter "publishRequest" was null or undefined when calling publishPost().'
+                'Required parameter "publishRequest" was null or undefined when calling publishName().'
             );
         }
 
@@ -663,8 +670,8 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Publish a name reveal to DHT
      */
-    async publishPostRaw(requestParameters: PublishPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
-        const requestOptions = await this.publishPostRequestOpts(requestParameters);
+    async publishNameRaw(requestParameters: PublishNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
+        const requestOptions = await this.publishNameRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PublishResponseFromJSON(jsonValue));
@@ -674,250 +681,80 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Publish a name reveal to DHT
      */
-    async publishPost(requestParameters: PublishPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
-        const response = await this.publishPostRaw(requestParameters, initOverrides);
+    async publishName(requestParameters: PublishNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
+        const response = await this.publishNameRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for vdfRegisterPost without sending the request
+     * Creates request options for publishZone without sending the request
      */
-    async vdfRegisterPostRequestOpts(requestParameters: VdfRegisterPostRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['vdfRegisterRequest'] == null) {
-            throw new runtime.RequiredError(
-                'vdfRegisterRequest',
-                'Required parameter "vdfRegisterRequest" was null or undefined when calling vdfRegisterPost().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/vdf/register`;
-
-        return {
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: VdfRegisterRequestToJSON(requestParameters['vdfRegisterRequest']),
-        };
-    }
-
-    /**
-     * Requires VDF or Admin role.
-     * Start VDF name registration task
-     */
-    async vdfRegisterPostRaw(requestParameters: VdfRegisterPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<VdfRegisterPost200Response>> {
-        const requestOptions = await this.vdfRegisterPostRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => VdfRegisterPost200ResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Requires VDF or Admin role.
-     * Start VDF name registration task
-     */
-    async vdfRegisterPost(requestParameters: VdfRegisterPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<VdfRegisterPost200Response> {
-        const response = await this.vdfRegisterPostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for vdfRenewPost without sending the request
-     */
-    async vdfRenewPostRequestOpts(requestParameters: VdfRenewPostRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['nameRenewRequest'] == null) {
-            throw new runtime.RequiredError(
-                'nameRenewRequest',
-                'Required parameter "nameRenewRequest" was null or undefined when calling vdfRenewPost().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/vdf/renew`;
-
-        return {
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: NameRenewRequestToJSON(requestParameters['nameRenewRequest']),
-        };
-    }
-
-    /**
-     * Requires VDF or Admin role.
-     * Start VDF name renewal task
-     */
-    async vdfRenewPostRaw(requestParameters: VdfRenewPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<VdfRegisterPost200Response>> {
-        const requestOptions = await this.vdfRenewPostRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => VdfRegisterPost200ResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Requires VDF or Admin role.
-     * Start VDF name renewal task
-     */
-    async vdfRenewPost(requestParameters: VdfRenewPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<VdfRegisterPost200Response> {
-        const response = await this.vdfRenewPostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for vdfStatusTaskIdDelete without sending the request
-     */
-    async vdfStatusTaskIdDeleteRequestOpts(requestParameters: VdfStatusTaskIdDeleteRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['taskId'] == null) {
-            throw new runtime.RequiredError(
-                'taskId',
-                'Required parameter "taskId" was null or undefined when calling vdfStatusTaskIdDelete().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/vdf/status/{task_id}`;
-        urlPath = urlPath.replace('{task_id}', encodeURIComponent(String(requestParameters['taskId'])));
-
-        return {
-            path: urlPath,
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     * Requires VDF or Admin role.
-     * Delete a VDF task from memory
-     */
-    async vdfStatusTaskIdDeleteRaw(requestParameters: VdfStatusTaskIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<VdfStatusTaskIdDelete200Response>> {
-        const requestOptions = await this.vdfStatusTaskIdDeleteRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => VdfStatusTaskIdDelete200ResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Requires VDF or Admin role.
-     * Delete a VDF task from memory
-     */
-    async vdfStatusTaskIdDelete(requestParameters: VdfStatusTaskIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<VdfStatusTaskIdDelete200Response> {
-        const response = await this.vdfStatusTaskIdDeleteRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for vdfStatusTaskIdGet without sending the request
-     */
-    async vdfStatusTaskIdGetRequestOpts(requestParameters: VdfStatusTaskIdGetRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['taskId'] == null) {
-            throw new runtime.RequiredError(
-                'taskId',
-                'Required parameter "taskId" was null or undefined when calling vdfStatusTaskIdGet().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/vdf/status/{task_id}`;
-        urlPath = urlPath.replace('{task_id}', encodeURIComponent(String(requestParameters['taskId'])));
-
-        return {
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     * Requires VDF or Admin role.
-     * Get status of a VDF task
-     */
-    async vdfStatusTaskIdGetRaw(requestParameters: VdfStatusTaskIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<VdfTaskStatus>> {
-        const requestOptions = await this.vdfStatusTaskIdGetRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => VdfTaskStatusFromJSON(jsonValue));
-    }
-
-    /**
-     * Requires VDF or Admin role.
-     * Get status of a VDF task
-     */
-    async vdfStatusTaskIdGet(requestParameters: VdfStatusTaskIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<VdfTaskStatus> {
-        const response = await this.vdfStatusTaskIdGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for zoneNamePost without sending the request
-     */
-    async zoneNamePostRequestOpts(requestParameters: ZoneNamePostRequest): Promise<runtime.RequestOpts> {
+    async publishZoneRequestOpts(requestParameters: PublishZoneRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['name'] == null) {
             throw new runtime.RequiredError(
                 'name',
-                'Required parameter "name" was null or undefined when calling zoneNamePost().'
+                'Required parameter "name" was null or undefined when calling publishZone().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/zone/{name}/publish`;
+        urlPath = urlPath.replace('{name}', encodeURIComponent(String(requestParameters['name'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Requires Publish or Admin role.
+     * Cryptographically sign and publish local zone to DHT
+     */
+    async publishZoneRaw(requestParameters: PublishZoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.publishZoneRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Requires Publish or Admin role.
+     * Cryptographically sign and publish local zone to DHT
+     */
+    async publishZone(requestParameters: PublishZoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.publishZoneRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Creates request options for saveZone without sending the request
+     */
+    async saveZoneRequestOpts(requestParameters: SaveZoneRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['name'] == null) {
+            throw new runtime.RequiredError(
+                'name',
+                'Required parameter "name" was null or undefined when calling saveZone().'
             );
         }
 
         if (requestParameters['dnsZone'] == null) {
             throw new runtime.RequiredError(
                 'dnsZone',
-                'Required parameter "dnsZone" was null or undefined when calling zoneNamePost().'
+                'Required parameter "dnsZone" was null or undefined when calling saveZone().'
             );
         }
 
@@ -952,8 +789,8 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Save local DNS zone file
      */
-    async zoneNamePostRaw(requestParameters: ZoneNamePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.zoneNamePostRequestOpts(requestParameters);
+    async saveZoneRaw(requestParameters: SaveZoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.saveZoneRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -963,21 +800,14 @@ export class PrivateApi extends runtime.BaseAPI {
      * Requires Publish or Admin role.
      * Save local DNS zone file
      */
-    async zoneNamePost(requestParameters: ZoneNamePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.zoneNamePostRaw(requestParameters, initOverrides);
+    async saveZone(requestParameters: SaveZoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.saveZoneRaw(requestParameters, initOverrides);
     }
 
     /**
-     * Creates request options for zoneNamePublishPost without sending the request
+     * Creates request options for syncAtlas without sending the request
      */
-    async zoneNamePublishPostRequestOpts(requestParameters: ZoneNamePublishPostRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['name'] == null) {
-            throw new runtime.RequiredError(
-                'name',
-                'Required parameter "name" was null or undefined when calling zoneNamePublishPost().'
-            );
-        }
-
+    async syncAtlasRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -991,8 +821,7 @@ export class PrivateApi extends runtime.BaseAPI {
             }
         }
 
-        let urlPath = `/zone/{name}/publish`;
-        urlPath = urlPath.replace('{name}', encodeURIComponent(String(requestParameters['name'])));
+        let urlPath = `/internal/atlas/sync`;
 
         return {
             path: urlPath,
@@ -1003,22 +832,193 @@ export class PrivateApi extends runtime.BaseAPI {
     }
 
     /**
-     * Requires Publish or Admin role.
-     * Cryptographically sign and publish local zone to DHT
+     * Requires Atlas or Admin role.
+     * Trigger a synchronization of the foreign TLD bridge
      */
-    async zoneNamePublishPostRaw(requestParameters: ZoneNamePublishPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.zoneNamePublishPostRequestOpts(requestParameters);
+    async syncAtlasRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublishResponse>> {
+        const requestOptions = await this.syncAtlasRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PublishResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Requires Atlas or Admin role.
+     * Trigger a synchronization of the foreign TLD bridge
+     */
+    async syncAtlas(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublishResponse> {
+        const response = await this.syncAtlasRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for updateConfig without sending the request
+     */
+    async updateConfigRequestOpts(requestParameters: UpdateConfigOperationRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['updateConfigRequest'] == null) {
+            throw new runtime.RequiredError(
+                'updateConfigRequest',
+                'Required parameter "updateConfigRequest" was null or undefined when calling updateConfig().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/config`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpdateConfigRequestToJSON(requestParameters['updateConfigRequest']),
+        };
+    }
+
+    /**
+     * Requires Admin role.
+     * Update config
+     */
+    async updateConfigRaw(requestParameters: UpdateConfigOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.updateConfigRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
 
     /**
-     * Requires Publish or Admin role.
-     * Cryptographically sign and publish local zone to DHT
+     * Requires Admin role.
+     * Update config
      */
-    async zoneNamePublishPost(requestParameters: ZoneNamePublishPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.zoneNamePublishPostRaw(requestParameters, initOverrides);
+    async updateConfig(requestParameters: UpdateConfigOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateConfigRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Creates request options for vdfRegister without sending the request
+     */
+    async vdfRegisterRequestOpts(requestParameters: VdfRegisterOperationRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['vdfRegisterRequest'] == null) {
+            throw new runtime.RequiredError(
+                'vdfRegisterRequest',
+                'Required parameter "vdfRegisterRequest" was null or undefined when calling vdfRegister().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/vdf/register`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: VdfRegisterRequestToJSON(requestParameters['vdfRegisterRequest']),
+        };
+    }
+
+    /**
+     * Requires VDF or Admin role.
+     * Start VDF name registration task
+     */
+    async vdfRegisterRaw(requestParameters: VdfRegisterOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<VdfRegister200Response>> {
+        const requestOptions = await this.vdfRegisterRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => VdfRegister200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Requires VDF or Admin role.
+     * Start VDF name registration task
+     */
+    async vdfRegister(requestParameters: VdfRegisterOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<VdfRegister200Response> {
+        const response = await this.vdfRegisterRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for vdfRenew without sending the request
+     */
+    async vdfRenewRequestOpts(requestParameters: VdfRenewRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['nameRenewRequest'] == null) {
+            throw new runtime.RequiredError(
+                'nameRenewRequest',
+                'Required parameter "nameRenewRequest" was null or undefined when calling vdfRenew().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/vdf/renew`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: NameRenewRequestToJSON(requestParameters['nameRenewRequest']),
+        };
+    }
+
+    /**
+     * Requires VDF or Admin role.
+     * Start VDF name renewal task
+     */
+    async vdfRenewRaw(requestParameters: VdfRenewRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<VdfRegister200Response>> {
+        const requestOptions = await this.vdfRenewRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => VdfRegister200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Requires VDF or Admin role.
+     * Start VDF name renewal task
+     */
+    async vdfRenew(requestParameters: VdfRenewRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<VdfRegister200Response> {
+        const response = await this.vdfRenewRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
 }

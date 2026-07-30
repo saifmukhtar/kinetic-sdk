@@ -4,28 +4,28 @@ All URIs are relative to *http://127.0.0.1:16002/api*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**commitPost**](PrivateApi.md#commitpost) | **POST** /commit | Commit a name hash to DHT |
-| [**configGet**](PrivateApi.md#configget) | **GET** /config | Get config |
-| [**configPost**](PrivateApi.md#configpostoperation) | **POST** /config | Update config |
-| [**gossipPublishTopicPost**](PrivateApi.md#gossippublishtopicpost) | **POST** /gossip/publish/{topic} | Broadcast a payload to a Gossipsub topic |
-| [**internalAtlasSyncPost**](PrivateApi.md#internalatlassyncpost) | **POST** /internal/atlas/sync | Trigger a synchronization of the foreign TLD bridge |
-| [**ownedNamesGet**](PrivateApi.md#ownednamesget) | **GET** /owned-names | Get list of locally owned names |
-| [**publishGovernancePost**](PrivateApi.md#publishgovernancepost) | **POST** /publish-governance | Publish a Governance action to DHT |
-| [**publishKidPost**](PrivateApi.md#publishkidpost) | **POST** /publish-kid | Publish a KID to DHT |
-| [**publishManifestPost**](PrivateApi.md#publishmanifestpost) | **POST** /publish-manifest | Publish a Capability Manifest to DHT |
-| [**publishPost**](PrivateApi.md#publishpost) | **POST** /publish | Publish a name reveal to DHT |
-| [**vdfRegisterPost**](PrivateApi.md#vdfregisterpost) | **POST** /vdf/register | Start VDF name registration task |
-| [**vdfRenewPost**](PrivateApi.md#vdfrenewpost) | **POST** /vdf/renew | Start VDF name renewal task |
-| [**vdfStatusTaskIdDelete**](PrivateApi.md#vdfstatustaskiddelete) | **DELETE** /vdf/status/{task_id} | Delete a VDF task from memory |
-| [**vdfStatusTaskIdGet**](PrivateApi.md#vdfstatustaskidget) | **GET** /vdf/status/{task_id} | Get status of a VDF task |
-| [**zoneNamePost**](PrivateApi.md#zonenamepost) | **POST** /zone/{name} | Save local DNS zone file |
-| [**zoneNamePublishPost**](PrivateApi.md#zonenamepublishpost) | **POST** /zone/{name}/publish | Cryptographically sign and publish local zone to DHT |
+| [**commitName**](PrivateApi.md#commitname) | **POST** /commit | Commit a name hash to DHT |
+| [**deleteVdfTask**](PrivateApi.md#deletevdftask) | **DELETE** /vdf/status/{task_id} | Delete a VDF task from memory |
+| [**getConfig**](PrivateApi.md#getconfig) | **GET** /config | Get config |
+| [**getOwnedNames**](PrivateApi.md#getownednames) | **GET** /owned-names | Get list of locally owned names |
+| [**getVdfStatus**](PrivateApi.md#getvdfstatus) | **GET** /vdf/status/{task_id} | Get status of a VDF task |
+| [**gossipPublish**](PrivateApi.md#gossippublish) | **POST** /gossip/publish/{topic} | Broadcast a payload to a Gossipsub topic |
+| [**publishGovernance**](PrivateApi.md#publishgovernance) | **POST** /publish-governance | Publish a Governance action to DHT |
+| [**publishKid**](PrivateApi.md#publishkid) | **POST** /publish-kid | Publish a KID to DHT |
+| [**publishManifest**](PrivateApi.md#publishmanifest) | **POST** /publish-manifest | Publish a Capability Manifest to DHT |
+| [**publishName**](PrivateApi.md#publishname) | **POST** /publish | Publish a name reveal to DHT |
+| [**publishZone**](PrivateApi.md#publishzone) | **POST** /zone/{name}/publish | Cryptographically sign and publish local zone to DHT |
+| [**saveZone**](PrivateApi.md#savezone) | **POST** /zone/{name} | Save local DNS zone file |
+| [**syncAtlas**](PrivateApi.md#syncatlas) | **POST** /internal/atlas/sync | Trigger a synchronization of the foreign TLD bridge |
+| [**updateConfig**](PrivateApi.md#updateconfigoperation) | **POST** /config | Update config |
+| [**vdfRegister**](PrivateApi.md#vdfregisteroperation) | **POST** /vdf/register | Start VDF name registration task |
+| [**vdfRenew**](PrivateApi.md#vdfrenew) | **POST** /vdf/renew | Start VDF name renewal task |
 
 
 
-## commitPost
+## commitName
 
-> PublishResponse commitPost(commitRequest)
+> PublishResponse commitName(commitRequest)
 
 Commit a name hash to DHT
 
@@ -38,7 +38,7 @@ import {
   Configuration,
   PrivateApi,
 } from 'kinetic-sdk';
-import type { CommitPostRequest } from 'kinetic-sdk';
+import type { CommitNameRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -51,10 +51,10 @@ async function example() {
   const body = {
     // CommitRequest
     commitRequest: ...,
-  } satisfies CommitPostRequest;
+  } satisfies CommitNameRequest;
 
   try {
-    const data = await api.commitPost(body);
+    const data = await api.commitName(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -94,9 +94,80 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## configGet
+## deleteVdfTask
 
-> configGet()
+> DeleteVdfTask200Response deleteVdfTask(taskId)
+
+Delete a VDF task from memory
+
+Requires VDF or Admin role.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PrivateApi,
+} from 'kinetic-sdk';
+import type { DeleteVdfTaskRequest } from 'kinetic-sdk';
+
+async function example() {
+  console.log("🚀 Testing kinetic-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new PrivateApi(config);
+
+  const body = {
+    // string
+    taskId: taskId_example,
+  } satisfies DeleteVdfTaskRequest;
+
+  try {
+    const data = await api.deleteVdfTask(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **taskId** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+[**DeleteVdfTask200Response**](DeleteVdfTask200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Task deleted |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getConfig
+
+> getConfig()
 
 Get config
 
@@ -109,7 +180,7 @@ import {
   Configuration,
   PrivateApi,
 } from 'kinetic-sdk';
-import type { ConfigGetRequest } from 'kinetic-sdk';
+import type { GetConfigRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -120,7 +191,7 @@ async function example() {
   const api = new PrivateApi(config);
 
   try {
-    const data = await api.configGet();
+    const data = await api.getConfig();
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -157,13 +228,13 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## configPost
+## getOwnedNames
 
-> configPost(configPostRequest)
+> Array&lt;string&gt; getOwnedNames()
 
-Update config
+Get list of locally owned names
 
-Requires Admin role.
+Requires Publish or Admin role.
 
 ### Example
 
@@ -172,7 +243,70 @@ import {
   Configuration,
   PrivateApi,
 } from 'kinetic-sdk';
-import type { ConfigPostOperationRequest } from 'kinetic-sdk';
+import type { GetOwnedNamesRequest } from 'kinetic-sdk';
+
+async function example() {
+  console.log("🚀 Testing kinetic-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new PrivateApi(config);
+
+  try {
+    const data = await api.getOwnedNames();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**Array<string>**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | List of names |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getVdfStatus
+
+> VdfTaskStatus getVdfStatus(taskId)
+
+Get status of a VDF task
+
+Requires VDF or Admin role.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PrivateApi,
+} from 'kinetic-sdk';
+import type { GetVdfStatusRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -183,12 +317,12 @@ async function example() {
   const api = new PrivateApi(config);
 
   const body = {
-    // ConfigPostRequest
-    configPostRequest: ...,
-  } satisfies ConfigPostOperationRequest;
+    // string
+    taskId: taskId_example,
+  } satisfies GetVdfStatusRequest;
 
   try {
-    const data = await api.configPost(body);
+    const data = await api.getVdfStatus(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -204,11 +338,11 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **configPostRequest** | [ConfigPostRequest](ConfigPostRequest.md) |  | |
+| **taskId** | `string` |  | [Defaults to `undefined`] |
 
 ### Return type
 
-`void` (Empty response body)
+[**VdfTaskStatus**](VdfTaskStatus.md)
 
 ### Authorization
 
@@ -216,21 +350,21 @@ example().catch(console.error);
 
 ### HTTP request headers
 
-- **Content-Type**: `application/json`
-- **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Config Updated |  -  |
+| **200** | Task status |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## gossipPublishTopicPost
+## gossipPublish
 
-> PublishResponse gossipPublishTopicPost(topic, body)
+> PublishResponse gossipPublish(topic, body)
 
 Broadcast a payload to a Gossipsub topic
 
@@ -243,7 +377,7 @@ import {
   Configuration,
   PrivateApi,
 } from 'kinetic-sdk';
-import type { GossipPublishTopicPostRequest } from 'kinetic-sdk';
+import type { GossipPublishRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -258,10 +392,10 @@ async function example() {
     topic: topic_example,
     // object
     body: Object,
-  } satisfies GossipPublishTopicPostRequest;
+  } satisfies GossipPublishRequest;
 
   try {
-    const data = await api.gossipPublishTopicPost(body);
+    const data = await api.gossipPublish(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -302,135 +436,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## internalAtlasSyncPost
+## publishGovernance
 
-> PublishResponse internalAtlasSyncPost()
-
-Trigger a synchronization of the foreign TLD bridge
-
-Requires Atlas or Admin role.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  PrivateApi,
-} from 'kinetic-sdk';
-import type { InternalAtlasSyncPostRequest } from 'kinetic-sdk';
-
-async function example() {
-  console.log("🚀 Testing kinetic-sdk SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new PrivateApi(config);
-
-  try {
-    const data = await api.internalAtlasSyncPost();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-[**PublishResponse**](PublishResponse.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Sync triggered |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## ownedNamesGet
-
-> Array&lt;string&gt; ownedNamesGet()
-
-Get list of locally owned names
-
-Requires Publish or Admin role.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  PrivateApi,
-} from 'kinetic-sdk';
-import type { OwnedNamesGetRequest } from 'kinetic-sdk';
-
-async function example() {
-  console.log("🚀 Testing kinetic-sdk SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new PrivateApi(config);
-
-  try {
-    const data = await api.ownedNamesGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**Array<string>**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | List of names |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## publishGovernancePost
-
-> PublishResponse publishGovernancePost(body)
+> PublishResponse publishGovernance(body)
 
 Publish a Governance action to DHT
 
@@ -443,7 +451,7 @@ import {
   Configuration,
   PrivateApi,
 } from 'kinetic-sdk';
-import type { PublishGovernancePostRequest } from 'kinetic-sdk';
+import type { PublishGovernanceRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -456,10 +464,10 @@ async function example() {
   const body = {
     // object
     body: Object,
-  } satisfies PublishGovernancePostRequest;
+  } satisfies PublishGovernanceRequest;
 
   try {
-    const data = await api.publishGovernancePost(body);
+    const data = await api.publishGovernance(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -499,9 +507,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publishKidPost
+## publishKid
 
-> PublishResponse publishKidPost(authorizedKid)
+> PublishResponse publishKid(authorizedKid)
 
 Publish a KID to DHT
 
@@ -514,7 +522,7 @@ import {
   Configuration,
   PrivateApi,
 } from 'kinetic-sdk';
-import type { PublishKidPostRequest } from 'kinetic-sdk';
+import type { PublishKidRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -527,10 +535,10 @@ async function example() {
   const body = {
     // AuthorizedKid
     authorizedKid: ...,
-  } satisfies PublishKidPostRequest;
+  } satisfies PublishKidRequest;
 
   try {
-    const data = await api.publishKidPost(body);
+    const data = await api.publishKid(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -570,9 +578,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publishManifestPost
+## publishManifest
 
-> PublishResponse publishManifestPost(authorizedManifest)
+> PublishResponse publishManifest(authorizedManifest)
 
 Publish a Capability Manifest to DHT
 
@@ -585,7 +593,7 @@ import {
   Configuration,
   PrivateApi,
 } from 'kinetic-sdk';
-import type { PublishManifestPostRequest } from 'kinetic-sdk';
+import type { PublishManifestRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -598,10 +606,10 @@ async function example() {
   const body = {
     // AuthorizedManifest
     authorizedManifest: ...,
-  } satisfies PublishManifestPostRequest;
+  } satisfies PublishManifestRequest;
 
   try {
-    const data = await api.publishManifestPost(body);
+    const data = await api.publishManifest(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -641,9 +649,9 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## publishPost
+## publishName
 
-> PublishResponse publishPost(publishRequest)
+> PublishResponse publishName(publishRequest)
 
 Publish a name reveal to DHT
 
@@ -656,7 +664,7 @@ import {
   Configuration,
   PrivateApi,
 } from 'kinetic-sdk';
-import type { PublishPostRequest } from 'kinetic-sdk';
+import type { PublishNameRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -669,10 +677,10 @@ async function example() {
   const body = {
     // PublishRequest
     publishRequest: ...,
-  } satisfies PublishPostRequest;
+  } satisfies PublishNameRequest;
 
   try {
-    const data = await api.publishPost(body);
+    const data = await api.publishName(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -712,84 +720,13 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## vdfRegisterPost
+## publishZone
 
-> VdfRegisterPost200Response vdfRegisterPost(vdfRegisterRequest)
+> publishZone(name)
 
-Start VDF name registration task
+Cryptographically sign and publish local zone to DHT
 
-Requires VDF or Admin role.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  PrivateApi,
-} from 'kinetic-sdk';
-import type { VdfRegisterPostRequest } from 'kinetic-sdk';
-
-async function example() {
-  console.log("🚀 Testing kinetic-sdk SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new PrivateApi(config);
-
-  const body = {
-    // VdfRegisterRequest
-    vdfRegisterRequest: ...,
-  } satisfies VdfRegisterPostRequest;
-
-  try {
-    const data = await api.vdfRegisterPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **vdfRegisterRequest** | [VdfRegisterRequest](VdfRegisterRequest.md) |  | |
-
-### Return type
-
-[**VdfRegisterPost200Response**](VdfRegisterPost200Response.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Task started |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## vdfRenewPost
-
-> VdfRegisterPost200Response vdfRenewPost(nameRenewRequest)
-
-Start VDF name renewal task
-
-Requires VDF or Admin role.
+Requires Publish or Admin role.
 
 ### Example
 
@@ -798,78 +735,7 @@ import {
   Configuration,
   PrivateApi,
 } from 'kinetic-sdk';
-import type { VdfRenewPostRequest } from 'kinetic-sdk';
-
-async function example() {
-  console.log("🚀 Testing kinetic-sdk SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new PrivateApi(config);
-
-  const body = {
-    // NameRenewRequest
-    nameRenewRequest: ...,
-  } satisfies VdfRenewPostRequest;
-
-  try {
-    const data = await api.vdfRenewPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **nameRenewRequest** | [NameRenewRequest](NameRenewRequest.md) |  | |
-
-### Return type
-
-[**VdfRegisterPost200Response**](VdfRegisterPost200Response.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Task started |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## vdfStatusTaskIdDelete
-
-> VdfStatusTaskIdDelete200Response vdfStatusTaskIdDelete(taskId)
-
-Delete a VDF task from memory
-
-Requires VDF or Admin role.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  PrivateApi,
-} from 'kinetic-sdk';
-import type { VdfStatusTaskIdDeleteRequest } from 'kinetic-sdk';
+import type { PublishZoneRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -881,11 +747,11 @@ async function example() {
 
   const body = {
     // string
-    taskId: taskId_example,
-  } satisfies VdfStatusTaskIdDeleteRequest;
+    name: name_example,
+  } satisfies PublishZoneRequest;
 
   try {
-    const data = await api.vdfStatusTaskIdDelete(body);
+    const data = await api.publishZone(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -901,11 +767,11 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **taskId** | `string` |  | [Defaults to `undefined`] |
+| **name** | `string` |  | [Defaults to `undefined`] |
 
 ### Return type
 
-[**VdfStatusTaskIdDelete200Response**](VdfStatusTaskIdDelete200Response.md)
+`void` (Empty response body)
 
 ### Authorization
 
@@ -914,91 +780,20 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`
+- **Accept**: Not defined
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Task deleted |  -  |
+| **200** | Published |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## vdfStatusTaskIdGet
+## saveZone
 
-> VdfTaskStatus vdfStatusTaskIdGet(taskId)
-
-Get status of a VDF task
-
-Requires VDF or Admin role.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  PrivateApi,
-} from 'kinetic-sdk';
-import type { VdfStatusTaskIdGetRequest } from 'kinetic-sdk';
-
-async function example() {
-  console.log("🚀 Testing kinetic-sdk SDK...");
-  const config = new Configuration({ 
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new PrivateApi(config);
-
-  const body = {
-    // string
-    taskId: taskId_example,
-  } satisfies VdfStatusTaskIdGetRequest;
-
-  try {
-    const data = await api.vdfStatusTaskIdGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **taskId** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-[**VdfTaskStatus**](VdfTaskStatus.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Task status |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## zoneNamePost
-
-> zoneNamePost(name, dnsZone)
+> saveZone(name, dnsZone)
 
 Save local DNS zone file
 
@@ -1011,7 +806,7 @@ import {
   Configuration,
   PrivateApi,
 } from 'kinetic-sdk';
-import type { ZoneNamePostRequest } from 'kinetic-sdk';
+import type { SaveZoneRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -1026,10 +821,10 @@ async function example() {
     name: name_example,
     // DnsZone
     dnsZone: ...,
-  } satisfies ZoneNamePostRequest;
+  } satisfies SaveZoneRequest;
 
   try {
-    const data = await api.zoneNamePost(body);
+    const data = await api.saveZone(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -1070,13 +865,13 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## zoneNamePublishPost
+## syncAtlas
 
-> zoneNamePublishPost(name)
+> PublishResponse syncAtlas()
 
-Cryptographically sign and publish local zone to DHT
+Trigger a synchronization of the foreign TLD bridge
 
-Requires Publish or Admin role.
+Requires Atlas or Admin role.
 
 ### Example
 
@@ -1085,7 +880,70 @@ import {
   Configuration,
   PrivateApi,
 } from 'kinetic-sdk';
-import type { ZoneNamePublishPostRequest } from 'kinetic-sdk';
+import type { SyncAtlasRequest } from 'kinetic-sdk';
+
+async function example() {
+  console.log("🚀 Testing kinetic-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new PrivateApi(config);
+
+  try {
+    const data = await api.syncAtlas();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**PublishResponse**](PublishResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Sync triggered |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## updateConfig
+
+> updateConfig(updateConfigRequest)
+
+Update config
+
+Requires Admin role.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PrivateApi,
+} from 'kinetic-sdk';
+import type { UpdateConfigOperationRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -1096,12 +954,12 @@ async function example() {
   const api = new PrivateApi(config);
 
   const body = {
-    // string
-    name: name_example,
-  } satisfies ZoneNamePublishPostRequest;
+    // UpdateConfigRequest
+    updateConfigRequest: ...,
+  } satisfies UpdateConfigOperationRequest;
 
   try {
-    const data = await api.zoneNamePublishPost(body);
+    const data = await api.updateConfig(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -1117,7 +975,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **name** | `string` |  | [Defaults to `undefined`] |
+| **updateConfigRequest** | [UpdateConfigRequest](UpdateConfigRequest.md) |  | |
 
 ### Return type
 
@@ -1129,14 +987,156 @@ example().catch(console.error);
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: `application/json`
 - **Accept**: Not defined
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Published |  -  |
+| **200** | Config Updated |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## vdfRegister
+
+> VdfRegister200Response vdfRegister(vdfRegisterRequest)
+
+Start VDF name registration task
+
+Requires VDF or Admin role.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PrivateApi,
+} from 'kinetic-sdk';
+import type { VdfRegisterOperationRequest } from 'kinetic-sdk';
+
+async function example() {
+  console.log("🚀 Testing kinetic-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new PrivateApi(config);
+
+  const body = {
+    // VdfRegisterRequest
+    vdfRegisterRequest: ...,
+  } satisfies VdfRegisterOperationRequest;
+
+  try {
+    const data = await api.vdfRegister(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **vdfRegisterRequest** | [VdfRegisterRequest](VdfRegisterRequest.md) |  | |
+
+### Return type
+
+[**VdfRegister200Response**](VdfRegister200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Task started |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## vdfRenew
+
+> VdfRegister200Response vdfRenew(nameRenewRequest)
+
+Start VDF name renewal task
+
+Requires VDF or Admin role.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PrivateApi,
+} from 'kinetic-sdk';
+import type { VdfRenewRequest } from 'kinetic-sdk';
+
+async function example() {
+  console.log("🚀 Testing kinetic-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new PrivateApi(config);
+
+  const body = {
+    // NameRenewRequest
+    nameRenewRequest: ...,
+  } satisfies VdfRenewRequest;
+
+  try {
+    const data = await api.vdfRenew(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **nameRenewRequest** | [NameRenewRequest](NameRenewRequest.md) |  | |
+
+### Return type
+
+[**VdfRegister200Response**](VdfRegister200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Task started |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

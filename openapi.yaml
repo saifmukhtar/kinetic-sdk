@@ -293,6 +293,7 @@ components:
 paths:
   /health:
     get:
+      operationId: getHealth
       summary: Get daemon health status
       tags: [Public]
       responses:
@@ -304,6 +305,7 @@ paths:
                 type: object
   /peer_id:
     get:
+      operationId: getPeerId
       summary: Get local peer ID
       tags: [Public]
       responses:
@@ -315,6 +317,7 @@ paths:
                 type: string
   /network-status:
     get:
+      operationId: getNetworkStatus
       summary: Get network status
       tags: [Public]
       responses:
@@ -326,6 +329,7 @@ paths:
                 type: object
   /governance:
     get:
+      operationId: getGovernance
       summary: Get current governance state
       tags: [Public]
       responses:
@@ -338,6 +342,7 @@ paths:
                 format: binary
   /time:
     get:
+      operationId: getTime
       summary: Get verified Kinetic network time
       tags: [Public]
       responses:
@@ -349,6 +354,7 @@ paths:
                 type: object
   /resolve/{name}:
     get:
+      operationId: resolveName
       summary: Resolve a Kinetic name
       tags: [Public]
       parameters:
@@ -366,6 +372,7 @@ paths:
                 $ref: '#/components/schemas/Reveal'
   /resolve-kid/{did}:
     get:
+      operationId: resolveKid
       summary: Resolve a KID
       tags: [Public]
       parameters:
@@ -388,6 +395,7 @@ paths:
                     $ref: '#/components/schemas/CapabilityManifest'
   /zone/{name}:
     get:
+      operationId: getZone
       summary: Get local DNS zone file
       tags: [Public]
       parameters:
@@ -404,6 +412,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/DnsZone'
     post:
+      operationId: saveZone
       summary: Save local DNS zone file
       description: Requires Publish or Admin role.
       tags: [Private]
@@ -426,6 +435,7 @@ paths:
           description: Saved
   /zone/{name}/publish:
     post:
+      operationId: publishZone
       summary: Cryptographically sign and publish local zone to DHT
       description: Requires Publish or Admin role.
       tags: [Private]
@@ -442,6 +452,7 @@ paths:
           description: Published
   /commit:
     post:
+      operationId: commitName
       summary: Commit a name hash to DHT
       description: Requires Publish or Admin role.
       tags: [Private]
@@ -462,6 +473,7 @@ paths:
                 $ref: '#/components/schemas/PublishResponse'
   /publish:
     post:
+      operationId: publishName
       summary: Publish a name reveal to DHT
       description: Requires Publish or Admin role.
       tags: [Private]
@@ -482,6 +494,7 @@ paths:
                 $ref: '#/components/schemas/PublishResponse'
   /publish-kid:
     post:
+      operationId: publishKid
       summary: Publish a KID to DHT
       description: Requires Publish or Admin role.
       tags: [Private]
@@ -502,6 +515,7 @@ paths:
                 $ref: '#/components/schemas/PublishResponse'
   /publish-manifest:
     post:
+      operationId: publishManifest
       summary: Publish a Capability Manifest to DHT
       description: Requires Publish or Admin role.
       tags: [Private]
@@ -522,6 +536,7 @@ paths:
                 $ref: '#/components/schemas/PublishResponse'
   /publish-governance:
     post:
+      operationId: publishGovernance
       summary: Publish a Governance action to DHT
       description: Requires Governance or Admin role.
       tags: [Private]
@@ -542,6 +557,7 @@ paths:
                 $ref: '#/components/schemas/PublishResponse'
   /config:
     get:
+      operationId: getConfig
       summary: Get config
       description: Requires Admin role.
       tags: [Private]
@@ -551,6 +567,7 @@ paths:
         '200':
           description: Config Object
     post:
+      operationId: updateConfig
       summary: Update config
       description: Requires Admin role.
       tags: [Private]
@@ -570,6 +587,7 @@ paths:
           description: Config Updated
   /owned-names:
     get:
+      operationId: getOwnedNames
       summary: Get list of locally owned names
       description: Requires Publish or Admin role.
       tags: [Private]
@@ -586,6 +604,7 @@ paths:
                   type: string
   /vdf/register:
     post:
+      operationId: vdfRegister
       summary: Start VDF name registration task
       description: Requires VDF or Admin role.
       tags: [Private]
@@ -611,6 +630,7 @@ paths:
                     type: string
   /vdf/renew:
     post:
+      operationId: vdfRenew
       summary: Start VDF name renewal task
       description: Requires VDF or Admin role.
       tags: [Private]
@@ -636,6 +656,7 @@ paths:
                     type: string
   /vdf/status/{task_id}:
     get:
+      operationId: getVdfStatus
       summary: Get status of a VDF task
       description: Requires VDF or Admin role.
       tags: [Private]
@@ -655,6 +676,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/VdfTaskStatus'
     delete:
+      operationId: deleteVdfTask
       summary: Delete a VDF task from memory
       description: Requires VDF or Admin role.
       tags: [Private]
@@ -678,6 +700,7 @@ paths:
                     type: boolean
   /gossip/subscribe/{topic}:
     get:
+      operationId: gossipSubscribe
       summary: Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
       tags: [Public]
       parameters:
@@ -695,6 +718,7 @@ paths:
                 type: string
   /gossip/publish/{topic}:
     post:
+      operationId: gossipPublish
       summary: Broadcast a payload to a Gossipsub topic
       description: Requires Publish or Admin role.
       tags: [Private]
@@ -721,6 +745,7 @@ paths:
                 $ref: '#/components/schemas/PublishResponse'
   /internal/atlas/sync:
     post:
+      operationId: syncAtlas
       summary: Trigger a synchronization of the foreign TLD bridge
       description: Requires Atlas or Admin role.
       tags: [Private]

@@ -15,121 +15,121 @@ use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
 
-/// struct for typed errors of method [`commit_post`]
+/// struct for typed errors of method [`commit_name`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum CommitPostError {
+pub enum CommitNameError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`config_get`]
+/// struct for typed errors of method [`delete_vdf_task`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ConfigGetError {
+pub enum DeleteVdfTaskError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`config_post`]
+/// struct for typed errors of method [`get_config`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ConfigPostError {
+pub enum GetConfigError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`gossip_publish_topic_post`]
+/// struct for typed errors of method [`get_owned_names`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum GossipPublishTopicPostError {
+pub enum GetOwnedNamesError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`internal_atlas_sync_post`]
+/// struct for typed errors of method [`get_vdf_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum InternalAtlasSyncPostError {
+pub enum GetVdfStatusError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`owned_names_get`]
+/// struct for typed errors of method [`gossip_publish`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum OwnedNamesGetError {
+pub enum GossipPublishError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`publish_governance_post`]
+/// struct for typed errors of method [`publish_governance`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PublishGovernancePostError {
+pub enum PublishGovernanceError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`publish_kid_post`]
+/// struct for typed errors of method [`publish_kid`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PublishKidPostError {
+pub enum PublishKidError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`publish_manifest_post`]
+/// struct for typed errors of method [`publish_manifest`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PublishManifestPostError {
+pub enum PublishManifestError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`publish_post`]
+/// struct for typed errors of method [`publish_name`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PublishPostError {
+pub enum PublishNameError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`vdf_register_post`]
+/// struct for typed errors of method [`publish_zone`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum VdfRegisterPostError {
+pub enum PublishZoneError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`vdf_renew_post`]
+/// struct for typed errors of method [`save_zone`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum VdfRenewPostError {
+pub enum SaveZoneError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`vdf_status_task_id_delete`]
+/// struct for typed errors of method [`sync_atlas`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum VdfStatusTaskIdDeleteError {
+pub enum SyncAtlasError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`vdf_status_task_id_get`]
+/// struct for typed errors of method [`update_config`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum VdfStatusTaskIdGetError {
+pub enum UpdateConfigError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`zone_name_post`]
+/// struct for typed errors of method [`vdf_register`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ZoneNamePostError {
+pub enum VdfRegisterError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`zone_name_publish_post`]
+/// struct for typed errors of method [`vdf_renew`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ZoneNamePublishPostError {
+pub enum VdfRenewError {
     UnknownValue(serde_json::Value),
 }
 
 
 /// Requires Publish or Admin role.
-pub async fn commit_post(configuration: &configuration::Configuration, commit_request: models::CommitRequest) -> Result<models::PublishResponse, Error<CommitPostError>> {
+pub async fn commit_name(configuration: &configuration::Configuration, commit_request: models::CommitRequest) -> Result<models::PublishResponse, Error<CommitNameError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_commit_request = commit_request;
 
@@ -164,13 +164,53 @@ pub async fn commit_post(configuration: &configuration::Configuration, commit_re
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<CommitPostError> = serde_json::from_str(&content).ok();
+        let entity: Option<CommitNameError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Requires VDF or Admin role.
+pub async fn delete_vdf_task(configuration: &configuration::Configuration, task_id: &str) -> Result<models::DeleteVdfTask200Response, Error<DeleteVdfTaskError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_path_task_id = task_id;
+
+    let uri_str = format!("{}/vdf/status/{task_id}", configuration.base_path, task_id=crate::apis::urlencode(p_path_task_id));
+    let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(ref token) = configuration.bearer_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::DeleteVdfTask200Response`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::DeleteVdfTask200Response`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<DeleteVdfTaskError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Requires Admin role.
-pub async fn config_get(configuration: &configuration::Configuration, ) -> Result<(), Error<ConfigGetError>> {
+pub async fn get_config(configuration: &configuration::Configuration, ) -> Result<(), Error<GetConfigError>> {
 
     let uri_str = format!("{}/config", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -191,18 +231,16 @@ pub async fn config_get(configuration: &configuration::Configuration, ) -> Resul
         Ok(())
     } else {
         let content = resp.text().await?;
-        let entity: Option<ConfigGetError> = serde_json::from_str(&content).ok();
+        let entity: Option<GetConfigError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-/// Requires Admin role.
-pub async fn config_post(configuration: &configuration::Configuration, config_post_request: models::ConfigPostRequest) -> Result<(), Error<ConfigPostError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_body_config_post_request = config_post_request;
+/// Requires Publish or Admin role.
+pub async fn get_owned_names(configuration: &configuration::Configuration, ) -> Result<Vec<String>, Error<GetOwnedNamesError>> {
 
-    let uri_str = format!("{}/config", configuration.base_path);
-    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+    let uri_str = format!("{}/owned-names", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -210,24 +248,74 @@ pub async fn config_post(configuration: &configuration::Configuration, config_po
     if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    req_builder = req_builder.json(&p_body_config_post_request);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
 
     let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        Ok(())
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;String&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;String&gt;`")))),
+        }
     } else {
         let content = resp.text().await?;
-        let entity: Option<ConfigPostError> = serde_json::from_str(&content).ok();
+        let entity: Option<GetOwnedNamesError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Requires VDF or Admin role.
+pub async fn get_vdf_status(configuration: &configuration::Configuration, task_id: &str) -> Result<models::VdfTaskStatus, Error<GetVdfStatusError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_path_task_id = task_id;
+
+    let uri_str = format!("{}/vdf/status/{task_id}", configuration.base_path, task_id=crate::apis::urlencode(p_path_task_id));
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(ref token) = configuration.bearer_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::VdfTaskStatus`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::VdfTaskStatus`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<GetVdfStatusError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Requires Publish or Admin role.
-pub async fn gossip_publish_topic_post(configuration: &configuration::Configuration, topic: &str, body: serde_json::Value) -> Result<models::PublishResponse, Error<GossipPublishTopicPostError>> {
+pub async fn gossip_publish(configuration: &configuration::Configuration, topic: &str, body: serde_json::Value) -> Result<models::PublishResponse, Error<GossipPublishError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_topic = topic;
     let p_body_body = body;
@@ -263,89 +351,13 @@ pub async fn gossip_publish_topic_post(configuration: &configuration::Configurat
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<GossipPublishTopicPostError> = serde_json::from_str(&content).ok();
-        Err(Error::ResponseError(ResponseContent { status, content, entity }))
-    }
-}
-
-/// Requires Atlas or Admin role.
-pub async fn internal_atlas_sync_post(configuration: &configuration::Configuration, ) -> Result<models::PublishResponse, Error<InternalAtlasSyncPostError>> {
-
-    let uri_str = format!("{}/internal/atlas/sync", configuration.base_path);
-    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
-
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-    }
-    if let Some(ref token) = configuration.bearer_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-
-    let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
-
-    let status = resp.status();
-    let content_type = resp
-        .headers()
-        .get("content-type")
-        .and_then(|v| v.to_str().ok())
-        .unwrap_or("application/octet-stream");
-    let content_type = super::ContentType::from(content_type);
-
-    if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
-        match content_type {
-            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
-            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::PublishResponse`"))),
-            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::PublishResponse`")))),
-        }
-    } else {
-        let content = resp.text().await?;
-        let entity: Option<InternalAtlasSyncPostError> = serde_json::from_str(&content).ok();
-        Err(Error::ResponseError(ResponseContent { status, content, entity }))
-    }
-}
-
-/// Requires Publish or Admin role.
-pub async fn owned_names_get(configuration: &configuration::Configuration, ) -> Result<Vec<String>, Error<OwnedNamesGetError>> {
-
-    let uri_str = format!("{}/owned-names", configuration.base_path);
-    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
-
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-    }
-    if let Some(ref token) = configuration.bearer_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-
-    let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
-
-    let status = resp.status();
-    let content_type = resp
-        .headers()
-        .get("content-type")
-        .and_then(|v| v.to_str().ok())
-        .unwrap_or("application/octet-stream");
-    let content_type = super::ContentType::from(content_type);
-
-    if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
-        match content_type {
-            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
-            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;String&gt;`"))),
-            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;String&gt;`")))),
-        }
-    } else {
-        let content = resp.text().await?;
-        let entity: Option<OwnedNamesGetError> = serde_json::from_str(&content).ok();
+        let entity: Option<GossipPublishError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Requires Governance or Admin role.
-pub async fn publish_governance_post(configuration: &configuration::Configuration, body: serde_json::Value) -> Result<models::PublishResponse, Error<PublishGovernancePostError>> {
+pub async fn publish_governance(configuration: &configuration::Configuration, body: serde_json::Value) -> Result<models::PublishResponse, Error<PublishGovernanceError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_body = body;
 
@@ -380,13 +392,13 @@ pub async fn publish_governance_post(configuration: &configuration::Configuratio
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<PublishGovernancePostError> = serde_json::from_str(&content).ok();
+        let entity: Option<PublishGovernanceError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Requires Publish or Admin role.
-pub async fn publish_kid_post(configuration: &configuration::Configuration, authorized_kid: models::AuthorizedKid) -> Result<models::PublishResponse, Error<PublishKidPostError>> {
+pub async fn publish_kid(configuration: &configuration::Configuration, authorized_kid: models::AuthorizedKid) -> Result<models::PublishResponse, Error<PublishKidError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_authorized_kid = authorized_kid;
 
@@ -421,13 +433,13 @@ pub async fn publish_kid_post(configuration: &configuration::Configuration, auth
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<PublishKidPostError> = serde_json::from_str(&content).ok();
+        let entity: Option<PublishKidError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Requires Publish or Admin role.
-pub async fn publish_manifest_post(configuration: &configuration::Configuration, authorized_manifest: models::AuthorizedManifest) -> Result<models::PublishResponse, Error<PublishManifestPostError>> {
+pub async fn publish_manifest(configuration: &configuration::Configuration, authorized_manifest: models::AuthorizedManifest) -> Result<models::PublishResponse, Error<PublishManifestError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_authorized_manifest = authorized_manifest;
 
@@ -462,13 +474,13 @@ pub async fn publish_manifest_post(configuration: &configuration::Configuration,
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<PublishManifestPostError> = serde_json::from_str(&content).ok();
+        let entity: Option<PublishManifestError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Requires Publish or Admin role.
-pub async fn publish_post(configuration: &configuration::Configuration, publish_request: models::PublishRequest) -> Result<models::PublishResponse, Error<PublishPostError>> {
+pub async fn publish_name(configuration: &configuration::Configuration, publish_request: models::PublishRequest) -> Result<models::PublishResponse, Error<PublishNameError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_publish_request = publish_request;
 
@@ -503,13 +515,141 @@ pub async fn publish_post(configuration: &configuration::Configuration, publish_
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<PublishPostError> = serde_json::from_str(&content).ok();
+        let entity: Option<PublishNameError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Requires Publish or Admin role.
+pub async fn publish_zone(configuration: &configuration::Configuration, name: &str) -> Result<(), Error<PublishZoneError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_path_name = name;
+
+    let uri_str = format!("{}/zone/{name}/publish", configuration.base_path, name=crate::apis::urlencode(p_path_name));
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(ref token) = configuration.bearer_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        Ok(())
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<PublishZoneError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Requires Publish or Admin role.
+pub async fn save_zone(configuration: &configuration::Configuration, name: &str, dns_zone: models::DnsZone) -> Result<(), Error<SaveZoneError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_path_name = name;
+    let p_body_dns_zone = dns_zone;
+
+    let uri_str = format!("{}/zone/{name}", configuration.base_path, name=crate::apis::urlencode(p_path_name));
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(ref token) = configuration.bearer_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    req_builder = req_builder.json(&p_body_dns_zone);
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        Ok(())
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<SaveZoneError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Requires Atlas or Admin role.
+pub async fn sync_atlas(configuration: &configuration::Configuration, ) -> Result<models::PublishResponse, Error<SyncAtlasError>> {
+
+    let uri_str = format!("{}/internal/atlas/sync", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(ref token) = configuration.bearer_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::PublishResponse`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::PublishResponse`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<SyncAtlasError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Requires Admin role.
+pub async fn update_config(configuration: &configuration::Configuration, update_config_request: models::UpdateConfigRequest) -> Result<(), Error<UpdateConfigError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_body_update_config_request = update_config_request;
+
+    let uri_str = format!("{}/config", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(ref token) = configuration.bearer_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    req_builder = req_builder.json(&p_body_update_config_request);
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        Ok(())
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<UpdateConfigError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Requires VDF or Admin role.
-pub async fn vdf_register_post(configuration: &configuration::Configuration, vdf_register_request: models::VdfRegisterRequest) -> Result<models::VdfRegisterPost200Response, Error<VdfRegisterPostError>> {
+pub async fn vdf_register(configuration: &configuration::Configuration, vdf_register_request: models::VdfRegisterRequest) -> Result<models::VdfRegister200Response, Error<VdfRegisterError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_vdf_register_request = vdf_register_request;
 
@@ -539,18 +679,18 @@ pub async fn vdf_register_post(configuration: &configuration::Configuration, vdf
         let content = resp.text().await?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
-            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::VdfRegisterPost200Response`"))),
-            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::VdfRegisterPost200Response`")))),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::VdfRegister200Response`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::VdfRegister200Response`")))),
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<VdfRegisterPostError> = serde_json::from_str(&content).ok();
+        let entity: Option<VdfRegisterError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Requires VDF or Admin role.
-pub async fn vdf_renew_post(configuration: &configuration::Configuration, name_renew_request: models::NameRenewRequest) -> Result<models::VdfRegisterPost200Response, Error<VdfRenewPostError>> {
+pub async fn vdf_renew(configuration: &configuration::Configuration, name_renew_request: models::NameRenewRequest) -> Result<models::VdfRegister200Response, Error<VdfRenewError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_name_renew_request = name_renew_request;
 
@@ -580,152 +720,12 @@ pub async fn vdf_renew_post(configuration: &configuration::Configuration, name_r
         let content = resp.text().await?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
-            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::VdfRegisterPost200Response`"))),
-            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::VdfRegisterPost200Response`")))),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::VdfRegister200Response`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::VdfRegister200Response`")))),
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<VdfRenewPostError> = serde_json::from_str(&content).ok();
-        Err(Error::ResponseError(ResponseContent { status, content, entity }))
-    }
-}
-
-/// Requires VDF or Admin role.
-pub async fn vdf_status_task_id_delete(configuration: &configuration::Configuration, task_id: &str) -> Result<models::VdfStatusTaskIdDelete200Response, Error<VdfStatusTaskIdDeleteError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_path_task_id = task_id;
-
-    let uri_str = format!("{}/vdf/status/{task_id}", configuration.base_path, task_id=crate::apis::urlencode(p_path_task_id));
-    let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
-
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-    }
-    if let Some(ref token) = configuration.bearer_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-
-    let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
-
-    let status = resp.status();
-    let content_type = resp
-        .headers()
-        .get("content-type")
-        .and_then(|v| v.to_str().ok())
-        .unwrap_or("application/octet-stream");
-    let content_type = super::ContentType::from(content_type);
-
-    if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
-        match content_type {
-            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
-            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::VdfStatusTaskIdDelete200Response`"))),
-            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::VdfStatusTaskIdDelete200Response`")))),
-        }
-    } else {
-        let content = resp.text().await?;
-        let entity: Option<VdfStatusTaskIdDeleteError> = serde_json::from_str(&content).ok();
-        Err(Error::ResponseError(ResponseContent { status, content, entity }))
-    }
-}
-
-/// Requires VDF or Admin role.
-pub async fn vdf_status_task_id_get(configuration: &configuration::Configuration, task_id: &str) -> Result<models::VdfTaskStatus, Error<VdfStatusTaskIdGetError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_path_task_id = task_id;
-
-    let uri_str = format!("{}/vdf/status/{task_id}", configuration.base_path, task_id=crate::apis::urlencode(p_path_task_id));
-    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
-
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-    }
-    if let Some(ref token) = configuration.bearer_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-
-    let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
-
-    let status = resp.status();
-    let content_type = resp
-        .headers()
-        .get("content-type")
-        .and_then(|v| v.to_str().ok())
-        .unwrap_or("application/octet-stream");
-    let content_type = super::ContentType::from(content_type);
-
-    if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
-        match content_type {
-            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
-            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::VdfTaskStatus`"))),
-            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::VdfTaskStatus`")))),
-        }
-    } else {
-        let content = resp.text().await?;
-        let entity: Option<VdfStatusTaskIdGetError> = serde_json::from_str(&content).ok();
-        Err(Error::ResponseError(ResponseContent { status, content, entity }))
-    }
-}
-
-/// Requires Publish or Admin role.
-pub async fn zone_name_post(configuration: &configuration::Configuration, name: &str, dns_zone: models::DnsZone) -> Result<(), Error<ZoneNamePostError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_path_name = name;
-    let p_body_dns_zone = dns_zone;
-
-    let uri_str = format!("{}/zone/{name}", configuration.base_path, name=crate::apis::urlencode(p_path_name));
-    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
-
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-    }
-    if let Some(ref token) = configuration.bearer_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-    req_builder = req_builder.json(&p_body_dns_zone);
-
-    let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
-
-    let status = resp.status();
-
-    if !status.is_client_error() && !status.is_server_error() {
-        Ok(())
-    } else {
-        let content = resp.text().await?;
-        let entity: Option<ZoneNamePostError> = serde_json::from_str(&content).ok();
-        Err(Error::ResponseError(ResponseContent { status, content, entity }))
-    }
-}
-
-/// Requires Publish or Admin role.
-pub async fn zone_name_publish_post(configuration: &configuration::Configuration, name: &str) -> Result<(), Error<ZoneNamePublishPostError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_path_name = name;
-
-    let uri_str = format!("{}/zone/{name}/publish", configuration.base_path, name=crate::apis::urlencode(p_path_name));
-    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
-
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-    }
-    if let Some(ref token) = configuration.bearer_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-
-    let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
-
-    let status = resp.status();
-
-    if !status.is_client_error() && !status.is_server_error() {
-        Ok(())
-    } else {
-        let content = resp.text().await?;
-        let entity: Option<ZoneNamePublishPostError> = serde_json::from_str(&content).ok();
+        let entity: Option<VdfRenewError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

@@ -4,21 +4,371 @@ All URIs are relative to *http://127.0.0.1:16002/api*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**gossipSubscribeTopicGet**](PublicApi.md#gossipsubscribetopicget) | **GET** /gossip/subscribe/{topic} | Subscribe to a Gossipsub topic via Server-Sent Events (SSE) |
-| [**governanceGet**](PublicApi.md#governanceget) | **GET** /governance | Get current governance state |
-| [**healthGet**](PublicApi.md#healthget) | **GET** /health | Get daemon health status |
-| [**networkStatusGet**](PublicApi.md#networkstatusget) | **GET** /network-status | Get network status |
-| [**peerIdGet**](PublicApi.md#peeridget) | **GET** /peer_id | Get local peer ID |
-| [**resolveKidDidGet**](PublicApi.md#resolvekiddidget) | **GET** /resolve-kid/{did} | Resolve a KID |
-| [**resolveNameGet**](PublicApi.md#resolvenameget) | **GET** /resolve/{name} | Resolve a Kinetic name |
-| [**timeGet**](PublicApi.md#timeget) | **GET** /time | Get verified Kinetic network time |
-| [**zoneNameGet**](PublicApi.md#zonenameget) | **GET** /zone/{name} | Get local DNS zone file |
+| [**getGovernance**](PublicApi.md#getgovernance) | **GET** /governance | Get current governance state |
+| [**getHealth**](PublicApi.md#gethealth) | **GET** /health | Get daemon health status |
+| [**getNetworkStatus**](PublicApi.md#getnetworkstatus) | **GET** /network-status | Get network status |
+| [**getPeerId**](PublicApi.md#getpeerid) | **GET** /peer_id | Get local peer ID |
+| [**getTime**](PublicApi.md#gettime) | **GET** /time | Get verified Kinetic network time |
+| [**getZone**](PublicApi.md#getzone) | **GET** /zone/{name} | Get local DNS zone file |
+| [**gossipSubscribe**](PublicApi.md#gossipsubscribe) | **GET** /gossip/subscribe/{topic} | Subscribe to a Gossipsub topic via Server-Sent Events (SSE) |
+| [**resolveKid**](PublicApi.md#resolvekid) | **GET** /resolve-kid/{did} | Resolve a KID |
+| [**resolveName**](PublicApi.md#resolvename) | **GET** /resolve/{name} | Resolve a Kinetic name |
 
 
 
-## gossipSubscribeTopicGet
+## getGovernance
 
-> string gossipSubscribeTopicGet(topic)
+> Blob getGovernance()
+
+Get current governance state
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PublicApi,
+} from 'kinetic-sdk';
+import type { GetGovernanceRequest } from 'kinetic-sdk';
+
+async function example() {
+  console.log("🚀 Testing kinetic-sdk SDK...");
+  const api = new PublicApi();
+
+  try {
+    const data = await api.getGovernance();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**Blob**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/octet-stream`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Governance state binary data |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getHealth
+
+> object getHealth()
+
+Get daemon health status
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PublicApi,
+} from 'kinetic-sdk';
+import type { GetHealthRequest } from 'kinetic-sdk';
+
+async function example() {
+  console.log("🚀 Testing kinetic-sdk SDK...");
+  const api = new PublicApi();
+
+  try {
+    const data = await api.getHealth();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Health status object |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getNetworkStatus
+
+> object getNetworkStatus()
+
+Get network status
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PublicApi,
+} from 'kinetic-sdk';
+import type { GetNetworkStatusRequest } from 'kinetic-sdk';
+
+async function example() {
+  console.log("🚀 Testing kinetic-sdk SDK...");
+  const api = new PublicApi();
+
+  try {
+    const data = await api.getNetworkStatus();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Network status object |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getPeerId
+
+> string getPeerId()
+
+Get local peer ID
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PublicApi,
+} from 'kinetic-sdk';
+import type { GetPeerIdRequest } from 'kinetic-sdk';
+
+async function example() {
+  console.log("🚀 Testing kinetic-sdk SDK...");
+  const api = new PublicApi();
+
+  try {
+    const data = await api.getPeerId();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `text/plain`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Peer ID string |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getTime
+
+> object getTime()
+
+Get verified Kinetic network time
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PublicApi,
+} from 'kinetic-sdk';
+import type { GetTimeRequest } from 'kinetic-sdk';
+
+async function example() {
+  console.log("🚀 Testing kinetic-sdk SDK...");
+  const api = new PublicApi();
+
+  try {
+    const data = await api.getTime();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Kinetic time object |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getZone
+
+> DnsZone getZone(name)
+
+Get local DNS zone file
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PublicApi,
+} from 'kinetic-sdk';
+import type { GetZoneRequest } from 'kinetic-sdk';
+
+async function example() {
+  console.log("🚀 Testing kinetic-sdk SDK...");
+  const api = new PublicApi();
+
+  const body = {
+    // string
+    name: name_example,
+  } satisfies GetZoneRequest;
+
+  try {
+    const data = await api.getZone(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **name** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+[**DnsZone**](DnsZone.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Found Zone |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## gossipSubscribe
+
+> string gossipSubscribe(topic)
 
 Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
 
@@ -29,7 +379,7 @@ import {
   Configuration,
   PublicApi,
 } from 'kinetic-sdk';
-import type { GossipSubscribeTopicGetRequest } from 'kinetic-sdk';
+import type { GossipSubscribeRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -38,10 +388,10 @@ async function example() {
   const body = {
     // string
     topic: topic_example,
-  } satisfies GossipSubscribeTopicGetRequest;
+  } satisfies GossipSubscribeRequest;
 
   try {
-    const data = await api.gossipSubscribeTopicGet(body);
+    const data = await api.gossipSubscribe(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -81,237 +431,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## governanceGet
+## resolveKid
 
-> Blob governanceGet()
-
-Get current governance state
-
-### Example
-
-```ts
-import {
-  Configuration,
-  PublicApi,
-} from 'kinetic-sdk';
-import type { GovernanceGetRequest } from 'kinetic-sdk';
-
-async function example() {
-  console.log("🚀 Testing kinetic-sdk SDK...");
-  const api = new PublicApi();
-
-  try {
-    const data = await api.governanceGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**Blob**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/octet-stream`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Governance state binary data |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## healthGet
-
-> object healthGet()
-
-Get daemon health status
-
-### Example
-
-```ts
-import {
-  Configuration,
-  PublicApi,
-} from 'kinetic-sdk';
-import type { HealthGetRequest } from 'kinetic-sdk';
-
-async function example() {
-  console.log("🚀 Testing kinetic-sdk SDK...");
-  const api = new PublicApi();
-
-  try {
-    const data = await api.healthGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**object**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Health status object |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## networkStatusGet
-
-> object networkStatusGet()
-
-Get network status
-
-### Example
-
-```ts
-import {
-  Configuration,
-  PublicApi,
-} from 'kinetic-sdk';
-import type { NetworkStatusGetRequest } from 'kinetic-sdk';
-
-async function example() {
-  console.log("🚀 Testing kinetic-sdk SDK...");
-  const api = new PublicApi();
-
-  try {
-    const data = await api.networkStatusGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**object**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Network status object |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## peerIdGet
-
-> string peerIdGet()
-
-Get local peer ID
-
-### Example
-
-```ts
-import {
-  Configuration,
-  PublicApi,
-} from 'kinetic-sdk';
-import type { PeerIdGetRequest } from 'kinetic-sdk';
-
-async function example() {
-  console.log("🚀 Testing kinetic-sdk SDK...");
-  const api = new PublicApi();
-
-  try {
-    const data = await api.peerIdGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/plain`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Peer ID string |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## resolveKidDidGet
-
-> ResolveKidDidGet200Response resolveKidDidGet(did)
+> ResolveKid200Response resolveKid(did)
 
 Resolve a KID
 
@@ -322,7 +444,7 @@ import {
   Configuration,
   PublicApi,
 } from 'kinetic-sdk';
-import type { ResolveKidDidGetRequest } from 'kinetic-sdk';
+import type { ResolveKidRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -331,10 +453,10 @@ async function example() {
   const body = {
     // string
     did: did_example,
-  } satisfies ResolveKidDidGetRequest;
+  } satisfies ResolveKidRequest;
 
   try {
-    const data = await api.resolveKidDidGet(body);
+    const data = await api.resolveKid(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -354,7 +476,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**ResolveKidDidGet200Response**](ResolveKidDidGet200Response.md)
+[**ResolveKid200Response**](ResolveKid200Response.md)
 
 ### Authorization
 
@@ -374,9 +496,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## resolveNameGet
+## resolveName
 
-> Reveal resolveNameGet(name)
+> Reveal resolveName(name)
 
 Resolve a Kinetic name
 
@@ -387,7 +509,7 @@ import {
   Configuration,
   PublicApi,
 } from 'kinetic-sdk';
-import type { ResolveNameGetRequest } from 'kinetic-sdk';
+import type { ResolveNameRequest } from 'kinetic-sdk';
 
 async function example() {
   console.log("🚀 Testing kinetic-sdk SDK...");
@@ -396,10 +518,10 @@ async function example() {
   const body = {
     // string
     name: name_example,
-  } satisfies ResolveNameGetRequest;
+  } satisfies ResolveNameRequest;
 
   try {
-    const data = await api.resolveNameGet(body);
+    const data = await api.resolveName(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -435,128 +557,6 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Found Reveal |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## timeGet
-
-> object timeGet()
-
-Get verified Kinetic network time
-
-### Example
-
-```ts
-import {
-  Configuration,
-  PublicApi,
-} from 'kinetic-sdk';
-import type { TimeGetRequest } from 'kinetic-sdk';
-
-async function example() {
-  console.log("🚀 Testing kinetic-sdk SDK...");
-  const api = new PublicApi();
-
-  try {
-    const data = await api.timeGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**object**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Kinetic time object |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## zoneNameGet
-
-> DnsZone zoneNameGet(name)
-
-Get local DNS zone file
-
-### Example
-
-```ts
-import {
-  Configuration,
-  PublicApi,
-} from 'kinetic-sdk';
-import type { ZoneNameGetRequest } from 'kinetic-sdk';
-
-async function example() {
-  console.log("🚀 Testing kinetic-sdk SDK...");
-  const api = new PublicApi();
-
-  const body = {
-    // string
-    name: name_example,
-  } satisfies ZoneNameGetRequest;
-
-  try {
-    const data = await api.zoneNameGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **name** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-[**DnsZone**](DnsZone.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Found Zone |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

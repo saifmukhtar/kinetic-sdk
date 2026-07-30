@@ -4,28 +4,28 @@ All URIs are relative to *http://127.0.0.1:16002/api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**commit_post**](PrivateApi.md#commit_post) | **POST** /commit | Commit a name hash to DHT
-[**config_get**](PrivateApi.md#config_get) | **GET** /config | Get config
-[**config_post**](PrivateApi.md#config_post) | **POST** /config | Update config
-[**gossip_publish_topic_post**](PrivateApi.md#gossip_publish_topic_post) | **POST** /gossip/publish/{topic} | Broadcast a payload to a Gossipsub topic
-[**internal_atlas_sync_post**](PrivateApi.md#internal_atlas_sync_post) | **POST** /internal/atlas/sync | Trigger a synchronization of the foreign TLD bridge
-[**owned_names_get**](PrivateApi.md#owned_names_get) | **GET** /owned-names | Get list of locally owned names
-[**publish_governance_post**](PrivateApi.md#publish_governance_post) | **POST** /publish-governance | Publish a Governance action to DHT
-[**publish_kid_post**](PrivateApi.md#publish_kid_post) | **POST** /publish-kid | Publish a KID to DHT
-[**publish_manifest_post**](PrivateApi.md#publish_manifest_post) | **POST** /publish-manifest | Publish a Capability Manifest to DHT
-[**publish_post**](PrivateApi.md#publish_post) | **POST** /publish | Publish a name reveal to DHT
-[**vdf_register_post**](PrivateApi.md#vdf_register_post) | **POST** /vdf/register | Start VDF name registration task
-[**vdf_renew_post**](PrivateApi.md#vdf_renew_post) | **POST** /vdf/renew | Start VDF name renewal task
-[**vdf_status_task_id_delete**](PrivateApi.md#vdf_status_task_id_delete) | **DELETE** /vdf/status/{task_id} | Delete a VDF task from memory
-[**vdf_status_task_id_get**](PrivateApi.md#vdf_status_task_id_get) | **GET** /vdf/status/{task_id} | Get status of a VDF task
-[**zone_name_post**](PrivateApi.md#zone_name_post) | **POST** /zone/{name} | Save local DNS zone file
-[**zone_name_publish_post**](PrivateApi.md#zone_name_publish_post) | **POST** /zone/{name}/publish | Cryptographically sign and publish local zone to DHT
+[**commit_name**](PrivateApi.md#commit_name) | **POST** /commit | Commit a name hash to DHT
+[**delete_vdf_task**](PrivateApi.md#delete_vdf_task) | **DELETE** /vdf/status/{task_id} | Delete a VDF task from memory
+[**get_config**](PrivateApi.md#get_config) | **GET** /config | Get config
+[**get_owned_names**](PrivateApi.md#get_owned_names) | **GET** /owned-names | Get list of locally owned names
+[**get_vdf_status**](PrivateApi.md#get_vdf_status) | **GET** /vdf/status/{task_id} | Get status of a VDF task
+[**gossip_publish**](PrivateApi.md#gossip_publish) | **POST** /gossip/publish/{topic} | Broadcast a payload to a Gossipsub topic
+[**publish_governance**](PrivateApi.md#publish_governance) | **POST** /publish-governance | Publish a Governance action to DHT
+[**publish_kid**](PrivateApi.md#publish_kid) | **POST** /publish-kid | Publish a KID to DHT
+[**publish_manifest**](PrivateApi.md#publish_manifest) | **POST** /publish-manifest | Publish a Capability Manifest to DHT
+[**publish_name**](PrivateApi.md#publish_name) | **POST** /publish | Publish a name reveal to DHT
+[**publish_zone**](PrivateApi.md#publish_zone) | **POST** /zone/{name}/publish | Cryptographically sign and publish local zone to DHT
+[**save_zone**](PrivateApi.md#save_zone) | **POST** /zone/{name} | Save local DNS zone file
+[**sync_atlas**](PrivateApi.md#sync_atlas) | **POST** /internal/atlas/sync | Trigger a synchronization of the foreign TLD bridge
+[**update_config**](PrivateApi.md#update_config) | **POST** /config | Update config
+[**vdf_register**](PrivateApi.md#vdf_register) | **POST** /vdf/register | Start VDF name registration task
+[**vdf_renew**](PrivateApi.md#vdf_renew) | **POST** /vdf/renew | Start VDF name renewal task
 
 
 
-## commit_post
+## commit_name
 
-> models::PublishResponse commit_post(commit_request)
+> models::PublishResponse commit_name(commit_request)
 Commit a name hash to DHT
 
 Requires Publish or Admin role.
@@ -53,9 +53,39 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## config_get
+## delete_vdf_task
 
-> config_get()
+> models::DeleteVdfTask200Response delete_vdf_task(task_id)
+Delete a VDF task from memory
+
+Requires VDF or Admin role.
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**task_id** | **String** |  | [required] |
+
+### Return type
+
+[**models::DeleteVdfTask200Response**](deleteVdfTask_200_response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## get_config
+
+> get_config()
 Get config
 
 Requires Admin role.
@@ -80,23 +110,20 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## config_post
+## get_owned_names
 
-> config_post(config_post_request)
-Update config
+> Vec<String> get_owned_names()
+Get list of locally owned names
 
-Requires Admin role.
+Requires Publish or Admin role.
 
 ### Parameters
 
-
-Name | Type | Description  | Required | Notes
-------------- | ------------- | ------------- | ------------- | -------------
-**config_post_request** | [**ConfigPostRequest**](ConfigPostRequest.md) |  | [required] |
+This endpoint does not need any parameter.
 
 ### Return type
 
- (empty response body)
+**Vec<String>**
 
 ### Authorization
 
@@ -104,15 +131,45 @@ Name | Type | Description  | Required | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
-- **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## gossip_publish_topic_post
+## get_vdf_status
 
-> models::PublishResponse gossip_publish_topic_post(topic, body)
+> models::VdfTaskStatus get_vdf_status(task_id)
+Get status of a VDF task
+
+Requires VDF or Admin role.
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**task_id** | **String** |  | [required] |
+
+### Return type
+
+[**models::VdfTaskStatus**](VdfTaskStatus.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## gossip_publish
+
+> models::PublishResponse gossip_publish(topic, body)
 Broadcast a payload to a Gossipsub topic
 
 Requires Publish or Admin role.
@@ -141,63 +198,9 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## internal_atlas_sync_post
+## publish_governance
 
-> models::PublishResponse internal_atlas_sync_post()
-Trigger a synchronization of the foreign TLD bridge
-
-Requires Atlas or Admin role.
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-[**models::PublishResponse**](PublishResponse.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-
-## owned_names_get
-
-> Vec<String> owned_names_get()
-Get list of locally owned names
-
-Requires Publish or Admin role.
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**Vec<String>**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-
-## publish_governance_post
-
-> models::PublishResponse publish_governance_post(body)
+> models::PublishResponse publish_governance(body)
 Publish a Governance action to DHT
 
 Requires Governance or Admin role.
@@ -225,9 +228,9 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## publish_kid_post
+## publish_kid
 
-> models::PublishResponse publish_kid_post(authorized_kid)
+> models::PublishResponse publish_kid(authorized_kid)
 Publish a KID to DHT
 
 Requires Publish or Admin role.
@@ -255,9 +258,9 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## publish_manifest_post
+## publish_manifest
 
-> models::PublishResponse publish_manifest_post(authorized_manifest)
+> models::PublishResponse publish_manifest(authorized_manifest)
 Publish a Capability Manifest to DHT
 
 Requires Publish or Admin role.
@@ -285,9 +288,9 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## publish_post
+## publish_name
 
-> models::PublishResponse publish_post(publish_request)
+> models::PublishResponse publish_name(publish_request)
 Publish a name reveal to DHT
 
 Requires Publish or Admin role.
@@ -315,83 +318,23 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## vdf_register_post
+## publish_zone
 
-> models::VdfRegisterPost200Response vdf_register_post(vdf_register_request)
-Start VDF name registration task
+> publish_zone(name)
+Cryptographically sign and publish local zone to DHT
 
-Requires VDF or Admin role.
-
-### Parameters
-
-
-Name | Type | Description  | Required | Notes
-------------- | ------------- | ------------- | ------------- | -------------
-**vdf_register_request** | [**VdfRegisterRequest**](VdfRegisterRequest.md) |  | [required] |
-
-### Return type
-
-[**models::VdfRegisterPost200Response**](_vdf_register_post_200_response.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-
-## vdf_renew_post
-
-> models::VdfRegisterPost200Response vdf_renew_post(name_renew_request)
-Start VDF name renewal task
-
-Requires VDF or Admin role.
+Requires Publish or Admin role.
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**name_renew_request** | [**NameRenewRequest**](NameRenewRequest.md) |  | [required] |
+**name** | **String** |  | [required] |
 
 ### Return type
 
-[**models::VdfRegisterPost200Response**](_vdf_register_post_200_response.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-
-## vdf_status_task_id_delete
-
-> models::VdfStatusTaskIdDelete200Response vdf_status_task_id_delete(task_id)
-Delete a VDF task from memory
-
-Requires VDF or Admin role.
-
-### Parameters
-
-
-Name | Type | Description  | Required | Notes
-------------- | ------------- | ------------- | ------------- | -------------
-**task_id** | **String** |  | [required] |
-
-### Return type
-
-[**models::VdfStatusTaskIdDelete200Response**](_vdf_status__task_id__delete_200_response.md)
+ (empty response body)
 
 ### Authorization
 
@@ -400,44 +343,14 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## vdf_status_task_id_get
+## save_zone
 
-> models::VdfTaskStatus vdf_status_task_id_get(task_id)
-Get status of a VDF task
-
-Requires VDF or Admin role.
-
-### Parameters
-
-
-Name | Type | Description  | Required | Notes
-------------- | ------------- | ------------- | ------------- | -------------
-**task_id** | **String** |  | [required] |
-
-### Return type
-
-[**models::VdfTaskStatus**](VdfTaskStatus.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-
-## zone_name_post
-
-> zone_name_post(name, dns_zone)
+> save_zone(name, dns_zone)
 Save local DNS zone file
 
 Requires Publish or Admin role.
@@ -466,19 +379,46 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## zone_name_publish_post
+## sync_atlas
 
-> zone_name_publish_post(name)
-Cryptographically sign and publish local zone to DHT
+> models::PublishResponse sync_atlas()
+Trigger a synchronization of the foreign TLD bridge
 
-Requires Publish or Admin role.
+Requires Atlas or Admin role.
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**models::PublishResponse**](PublishResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## update_config
+
+> update_config(update_config_request)
+Update config
+
+Requires Admin role.
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**name** | **String** |  | [required] |
+**update_config_request** | [**UpdateConfigRequest**](UpdateConfigRequest.md) |  | [required] |
 
 ### Return type
 
@@ -490,8 +430,68 @@ Name | Type | Description  | Required | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## vdf_register
+
+> models::VdfRegister200Response vdf_register(vdf_register_request)
+Start VDF name registration task
+
+Requires VDF or Admin role.
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**vdf_register_request** | [**VdfRegisterRequest**](VdfRegisterRequest.md) |  | [required] |
+
+### Return type
+
+[**models::VdfRegister200Response**](vdfRegister_200_response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## vdf_renew
+
+> models::VdfRegister200Response vdf_renew(name_renew_request)
+Start VDF name renewal task
+
+Requires VDF or Admin role.
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**name_renew_request** | [**NameRenewRequest**](NameRenewRequest.md) |  | [required] |
+
+### Return type
+
+[**models::VdfRegister200Response**](vdfRegister_200_response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

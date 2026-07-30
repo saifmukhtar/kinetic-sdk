@@ -19,29 +19,29 @@ import {
     DnsZoneToJSON,
 } from '../models/DnsZone';
 import {
-    type ResolveKidDidGet200Response,
-    ResolveKidDidGet200ResponseFromJSON,
-    ResolveKidDidGet200ResponseToJSON,
-} from '../models/ResolveKidDidGet200Response';
+    type ResolveKid200Response,
+    ResolveKid200ResponseFromJSON,
+    ResolveKid200ResponseToJSON,
+} from '../models/ResolveKid200Response';
 import {
     type Reveal,
     RevealFromJSON,
     RevealToJSON,
 } from '../models/Reveal';
 
-export interface GossipSubscribeTopicGetRequest {
-    topic: string;
-}
-
-export interface ResolveKidDidGetRequest {
-    did: string;
-}
-
-export interface ResolveNameGetRequest {
+export interface GetZoneRequest {
     name: string;
 }
 
-export interface ZoneNameGetRequest {
+export interface GossipSubscribeRequest {
+    topic: string;
+}
+
+export interface ResolveKidRequest {
+    did: string;
+}
+
+export interface ResolveNameRequest {
     name: string;
 }
 
@@ -51,58 +51,9 @@ export interface ZoneNameGetRequest {
 export class PublicApi extends runtime.BaseAPI {
 
     /**
-     * Creates request options for gossipSubscribeTopicGet without sending the request
+     * Creates request options for getGovernance without sending the request
      */
-    async gossipSubscribeTopicGetRequestOpts(requestParameters: GossipSubscribeTopicGetRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['topic'] == null) {
-            throw new runtime.RequiredError(
-                'topic',
-                'Required parameter "topic" was null or undefined when calling gossipSubscribeTopicGet().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-
-        let urlPath = `/gossip/subscribe/{topic}`;
-        urlPath = urlPath.replace('{topic}', encodeURIComponent(String(requestParameters['topic'])));
-
-        return {
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     * Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
-     */
-    async gossipSubscribeTopicGetRaw(requestParameters: GossipSubscribeTopicGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
-        const requestOptions = await this.gossipSubscribeTopicGetRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<string>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
-     */
-    async gossipSubscribeTopicGet(requestParameters: GossipSubscribeTopicGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
-        const response = await this.gossipSubscribeTopicGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for governanceGet without sending the request
-     */
-    async governanceGetRequestOpts(): Promise<runtime.RequestOpts> {
+    async getGovernanceRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -121,8 +72,8 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get current governance state
      */
-    async governanceGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
-        const requestOptions = await this.governanceGetRequestOpts();
+    async getGovernanceRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
+        const requestOptions = await this.getGovernanceRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.BlobApiResponse(response);
@@ -131,15 +82,15 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get current governance state
      */
-    async governanceGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
-        const response = await this.governanceGetRaw(initOverrides);
+    async getGovernance(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
+        const response = await this.getGovernanceRaw(initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for healthGet without sending the request
+     * Creates request options for getHealth without sending the request
      */
-    async healthGetRequestOpts(): Promise<runtime.RequestOpts> {
+    async getHealthRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -158,8 +109,8 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get daemon health status
      */
-    async healthGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
-        const requestOptions = await this.healthGetRequestOpts();
+    async getHealthRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        const requestOptions = await this.getHealthRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
@@ -168,15 +119,15 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get daemon health status
      */
-    async healthGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
-        const response = await this.healthGetRaw(initOverrides);
+    async getHealth(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.getHealthRaw(initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for networkStatusGet without sending the request
+     * Creates request options for getNetworkStatus without sending the request
      */
-    async networkStatusGetRequestOpts(): Promise<runtime.RequestOpts> {
+    async getNetworkStatusRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -195,8 +146,8 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get network status
      */
-    async networkStatusGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
-        const requestOptions = await this.networkStatusGetRequestOpts();
+    async getNetworkStatusRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        const requestOptions = await this.getNetworkStatusRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
@@ -205,15 +156,15 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get network status
      */
-    async networkStatusGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
-        const response = await this.networkStatusGetRaw(initOverrides);
+    async getNetworkStatus(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.getNetworkStatusRaw(initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for peerIdGet without sending the request
+     * Creates request options for getPeerId without sending the request
      */
-    async peerIdGetRequestOpts(): Promise<runtime.RequestOpts> {
+    async getPeerIdRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -232,8 +183,8 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get local peer ID
      */
-    async peerIdGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
-        const requestOptions = await this.peerIdGetRequestOpts();
+    async getPeerIdRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        const requestOptions = await this.getPeerIdRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
@@ -246,105 +197,15 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get local peer ID
      */
-    async peerIdGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
-        const response = await this.peerIdGetRaw(initOverrides);
+    async getPeerId(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.getPeerIdRaw(initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for resolveKidDidGet without sending the request
+     * Creates request options for getTime without sending the request
      */
-    async resolveKidDidGetRequestOpts(requestParameters: ResolveKidDidGetRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['did'] == null) {
-            throw new runtime.RequiredError(
-                'did',
-                'Required parameter "did" was null or undefined when calling resolveKidDidGet().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-
-        let urlPath = `/resolve-kid/{did}`;
-        urlPath = urlPath.replace('{did}', encodeURIComponent(String(requestParameters['did'])));
-
-        return {
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     * Resolve a KID
-     */
-    async resolveKidDidGetRaw(requestParameters: ResolveKidDidGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResolveKidDidGet200Response>> {
-        const requestOptions = await this.resolveKidDidGetRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ResolveKidDidGet200ResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Resolve a KID
-     */
-    async resolveKidDidGet(requestParameters: ResolveKidDidGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ResolveKidDidGet200Response> {
-        const response = await this.resolveKidDidGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for resolveNameGet without sending the request
-     */
-    async resolveNameGetRequestOpts(requestParameters: ResolveNameGetRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['name'] == null) {
-            throw new runtime.RequiredError(
-                'name',
-                'Required parameter "name" was null or undefined when calling resolveNameGet().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-
-        let urlPath = `/resolve/{name}`;
-        urlPath = urlPath.replace('{name}', encodeURIComponent(String(requestParameters['name'])));
-
-        return {
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     * Resolve a Kinetic name
-     */
-    async resolveNameGetRaw(requestParameters: ResolveNameGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Reveal>> {
-        const requestOptions = await this.resolveNameGetRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => RevealFromJSON(jsonValue));
-    }
-
-    /**
-     * Resolve a Kinetic name
-     */
-    async resolveNameGet(requestParameters: ResolveNameGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Reveal> {
-        const response = await this.resolveNameGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for timeGet without sending the request
-     */
-    async timeGetRequestOpts(): Promise<runtime.RequestOpts> {
+    async getTimeRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -363,8 +224,8 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get verified Kinetic network time
      */
-    async timeGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
-        const requestOptions = await this.timeGetRequestOpts();
+    async getTimeRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        const requestOptions = await this.getTimeRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
@@ -373,19 +234,19 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get verified Kinetic network time
      */
-    async timeGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
-        const response = await this.timeGetRaw(initOverrides);
+    async getTime(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.getTimeRaw(initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for zoneNameGet without sending the request
+     * Creates request options for getZone without sending the request
      */
-    async zoneNameGetRequestOpts(requestParameters: ZoneNameGetRequest): Promise<runtime.RequestOpts> {
+    async getZoneRequestOpts(requestParameters: GetZoneRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['name'] == null) {
             throw new runtime.RequiredError(
                 'name',
-                'Required parameter "name" was null or undefined when calling zoneNameGet().'
+                'Required parameter "name" was null or undefined when calling getZone().'
             );
         }
 
@@ -408,8 +269,8 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get local DNS zone file
      */
-    async zoneNameGetRaw(requestParameters: ZoneNameGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DnsZone>> {
-        const requestOptions = await this.zoneNameGetRequestOpts(requestParameters);
+    async getZoneRaw(requestParameters: GetZoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DnsZone>> {
+        const requestOptions = await this.getZoneRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DnsZoneFromJSON(jsonValue));
@@ -418,8 +279,147 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Get local DNS zone file
      */
-    async zoneNameGet(requestParameters: ZoneNameGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DnsZone> {
-        const response = await this.zoneNameGetRaw(requestParameters, initOverrides);
+    async getZone(requestParameters: GetZoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DnsZone> {
+        const response = await this.getZoneRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for gossipSubscribe without sending the request
+     */
+    async gossipSubscribeRequestOpts(requestParameters: GossipSubscribeRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['topic'] == null) {
+            throw new runtime.RequiredError(
+                'topic',
+                'Required parameter "topic" was null or undefined when calling gossipSubscribe().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/gossip/subscribe/{topic}`;
+        urlPath = urlPath.replace('{topic}', encodeURIComponent(String(requestParameters['topic'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
+     */
+    async gossipSubscribeRaw(requestParameters: GossipSubscribeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        const requestOptions = await this.gossipSubscribeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
+     */
+    async gossipSubscribe(requestParameters: GossipSubscribeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.gossipSubscribeRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for resolveKid without sending the request
+     */
+    async resolveKidRequestOpts(requestParameters: ResolveKidRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['did'] == null) {
+            throw new runtime.RequiredError(
+                'did',
+                'Required parameter "did" was null or undefined when calling resolveKid().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/resolve-kid/{did}`;
+        urlPath = urlPath.replace('{did}', encodeURIComponent(String(requestParameters['did'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Resolve a KID
+     */
+    async resolveKidRaw(requestParameters: ResolveKidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResolveKid200Response>> {
+        const requestOptions = await this.resolveKidRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ResolveKid200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Resolve a KID
+     */
+    async resolveKid(requestParameters: ResolveKidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ResolveKid200Response> {
+        const response = await this.resolveKidRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for resolveName without sending the request
+     */
+    async resolveNameRequestOpts(requestParameters: ResolveNameRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['name'] == null) {
+            throw new runtime.RequiredError(
+                'name',
+                'Required parameter "name" was null or undefined when calling resolveName().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/resolve/{name}`;
+        urlPath = urlPath.replace('{name}', encodeURIComponent(String(requestParameters['name'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Resolve a Kinetic name
+     */
+    async resolveNameRaw(requestParameters: ResolveNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Reveal>> {
+        const requestOptions = await this.resolveNameRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RevealFromJSON(jsonValue));
+    }
+
+    /**
+     * Resolve a Kinetic name
+     */
+    async resolveName(requestParameters: ResolveNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Reveal> {
+        const response = await this.resolveNameRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

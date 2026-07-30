@@ -26,31 +26,31 @@ All URIs are relative to *http://127.0.0.1:16002/api*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*PrivateApi* | [**commit_post**](docs/PrivateApi.md#commit_post) | **POST** /commit | Commit a name hash to DHT
-*PrivateApi* | [**config_get**](docs/PrivateApi.md#config_get) | **GET** /config | Get config
-*PrivateApi* | [**config_post**](docs/PrivateApi.md#config_post) | **POST** /config | Update config
-*PrivateApi* | [**gossip_publish_topic_post**](docs/PrivateApi.md#gossip_publish_topic_post) | **POST** /gossip/publish/{topic} | Broadcast a payload to a Gossipsub topic
-*PrivateApi* | [**internal_atlas_sync_post**](docs/PrivateApi.md#internal_atlas_sync_post) | **POST** /internal/atlas/sync | Trigger a synchronization of the foreign TLD bridge
-*PrivateApi* | [**owned_names_get**](docs/PrivateApi.md#owned_names_get) | **GET** /owned-names | Get list of locally owned names
-*PrivateApi* | [**publish_governance_post**](docs/PrivateApi.md#publish_governance_post) | **POST** /publish-governance | Publish a Governance action to DHT
-*PrivateApi* | [**publish_kid_post**](docs/PrivateApi.md#publish_kid_post) | **POST** /publish-kid | Publish a KID to DHT
-*PrivateApi* | [**publish_manifest_post**](docs/PrivateApi.md#publish_manifest_post) | **POST** /publish-manifest | Publish a Capability Manifest to DHT
-*PrivateApi* | [**publish_post**](docs/PrivateApi.md#publish_post) | **POST** /publish | Publish a name reveal to DHT
-*PrivateApi* | [**vdf_register_post**](docs/PrivateApi.md#vdf_register_post) | **POST** /vdf/register | Start VDF name registration task
-*PrivateApi* | [**vdf_renew_post**](docs/PrivateApi.md#vdf_renew_post) | **POST** /vdf/renew | Start VDF name renewal task
-*PrivateApi* | [**vdf_status_task_id_delete**](docs/PrivateApi.md#vdf_status_task_id_delete) | **DELETE** /vdf/status/{task_id} | Delete a VDF task from memory
-*PrivateApi* | [**vdf_status_task_id_get**](docs/PrivateApi.md#vdf_status_task_id_get) | **GET** /vdf/status/{task_id} | Get status of a VDF task
-*PrivateApi* | [**zone_name_post**](docs/PrivateApi.md#zone_name_post) | **POST** /zone/{name} | Save local DNS zone file
-*PrivateApi* | [**zone_name_publish_post**](docs/PrivateApi.md#zone_name_publish_post) | **POST** /zone/{name}/publish | Cryptographically sign and publish local zone to DHT
-*PublicApi* | [**gossip_subscribe_topic_get**](docs/PublicApi.md#gossip_subscribe_topic_get) | **GET** /gossip/subscribe/{topic} | Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
-*PublicApi* | [**governance_get**](docs/PublicApi.md#governance_get) | **GET** /governance | Get current governance state
-*PublicApi* | [**health_get**](docs/PublicApi.md#health_get) | **GET** /health | Get daemon health status
-*PublicApi* | [**network_status_get**](docs/PublicApi.md#network_status_get) | **GET** /network-status | Get network status
-*PublicApi* | [**peer_id_get**](docs/PublicApi.md#peer_id_get) | **GET** /peer_id | Get local peer ID
-*PublicApi* | [**resolve_kid_did_get**](docs/PublicApi.md#resolve_kid_did_get) | **GET** /resolve-kid/{did} | Resolve a KID
-*PublicApi* | [**resolve_name_get**](docs/PublicApi.md#resolve_name_get) | **GET** /resolve/{name} | Resolve a Kinetic name
-*PublicApi* | [**time_get**](docs/PublicApi.md#time_get) | **GET** /time | Get verified Kinetic network time
-*PublicApi* | [**zone_name_get**](docs/PublicApi.md#zone_name_get) | **GET** /zone/{name} | Get local DNS zone file
+*PrivateApi* | [**commit_name**](docs/PrivateApi.md#commit_name) | **POST** /commit | Commit a name hash to DHT
+*PrivateApi* | [**delete_vdf_task**](docs/PrivateApi.md#delete_vdf_task) | **DELETE** /vdf/status/{task_id} | Delete a VDF task from memory
+*PrivateApi* | [**get_config**](docs/PrivateApi.md#get_config) | **GET** /config | Get config
+*PrivateApi* | [**get_owned_names**](docs/PrivateApi.md#get_owned_names) | **GET** /owned-names | Get list of locally owned names
+*PrivateApi* | [**get_vdf_status**](docs/PrivateApi.md#get_vdf_status) | **GET** /vdf/status/{task_id} | Get status of a VDF task
+*PrivateApi* | [**gossip_publish**](docs/PrivateApi.md#gossip_publish) | **POST** /gossip/publish/{topic} | Broadcast a payload to a Gossipsub topic
+*PrivateApi* | [**publish_governance**](docs/PrivateApi.md#publish_governance) | **POST** /publish-governance | Publish a Governance action to DHT
+*PrivateApi* | [**publish_kid**](docs/PrivateApi.md#publish_kid) | **POST** /publish-kid | Publish a KID to DHT
+*PrivateApi* | [**publish_manifest**](docs/PrivateApi.md#publish_manifest) | **POST** /publish-manifest | Publish a Capability Manifest to DHT
+*PrivateApi* | [**publish_name**](docs/PrivateApi.md#publish_name) | **POST** /publish | Publish a name reveal to DHT
+*PrivateApi* | [**publish_zone**](docs/PrivateApi.md#publish_zone) | **POST** /zone/{name}/publish | Cryptographically sign and publish local zone to DHT
+*PrivateApi* | [**save_zone**](docs/PrivateApi.md#save_zone) | **POST** /zone/{name} | Save local DNS zone file
+*PrivateApi* | [**sync_atlas**](docs/PrivateApi.md#sync_atlas) | **POST** /internal/atlas/sync | Trigger a synchronization of the foreign TLD bridge
+*PrivateApi* | [**update_config**](docs/PrivateApi.md#update_config) | **POST** /config | Update config
+*PrivateApi* | [**vdf_register**](docs/PrivateApi.md#vdf_register) | **POST** /vdf/register | Start VDF name registration task
+*PrivateApi* | [**vdf_renew**](docs/PrivateApi.md#vdf_renew) | **POST** /vdf/renew | Start VDF name renewal task
+*PublicApi* | [**get_governance**](docs/PublicApi.md#get_governance) | **GET** /governance | Get current governance state
+*PublicApi* | [**get_health**](docs/PublicApi.md#get_health) | **GET** /health | Get daemon health status
+*PublicApi* | [**get_network_status**](docs/PublicApi.md#get_network_status) | **GET** /network-status | Get network status
+*PublicApi* | [**get_peer_id**](docs/PublicApi.md#get_peer_id) | **GET** /peer_id | Get local peer ID
+*PublicApi* | [**get_time**](docs/PublicApi.md#get_time) | **GET** /time | Get verified Kinetic network time
+*PublicApi* | [**get_zone**](docs/PublicApi.md#get_zone) | **GET** /zone/{name} | Get local DNS zone file
+*PublicApi* | [**gossip_subscribe**](docs/PublicApi.md#gossip_subscribe) | **GET** /gossip/subscribe/{topic} | Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
+*PublicApi* | [**resolve_kid**](docs/PublicApi.md#resolve_kid) | **GET** /resolve-kid/{did} | Resolve a KID
+*PublicApi* | [**resolve_name**](docs/PublicApi.md#resolve_name) | **GET** /resolve/{name} | Resolve a Kinetic name
 
 
 ## Documentation For Models
@@ -60,7 +60,7 @@ Class | Method | HTTP request | Description
  - [CapabilityManifest](docs/CapabilityManifest.md)
  - [CommitRequest](docs/CommitRequest.md)
  - [Commitment](docs/Commitment.md)
- - [ConfigPostRequest](docs/ConfigPostRequest.md)
+ - [DeleteVdfTask200Response](docs/DeleteVdfTask200Response.md)
  - [DnsRecord](docs/DnsRecord.md)
  - [DnsZone](docs/DnsZone.md)
  - [KidDocument](docs/KidDocument.md)
@@ -68,12 +68,12 @@ Class | Method | HTTP request | Description
  - [PreviousProof](docs/PreviousProof.md)
  - [PublishRequest](docs/PublishRequest.md)
  - [PublishResponse](docs/PublishResponse.md)
- - [ResolveKidDidGet200Response](docs/ResolveKidDidGet200Response.md)
+ - [ResolveKid200Response](docs/ResolveKid200Response.md)
  - [Reveal](docs/Reveal.md)
+ - [UpdateConfigRequest](docs/UpdateConfigRequest.md)
  - [VdfProof](docs/VdfProof.md)
- - [VdfRegisterPost200Response](docs/VdfRegisterPost200Response.md)
+ - [VdfRegister200Response](docs/VdfRegister200Response.md)
  - [VdfRegisterRequest](docs/VdfRegisterRequest.md)
- - [VdfStatusTaskIdDelete200Response](docs/VdfStatusTaskIdDelete200Response.md)
  - [VdfTaskStatus](docs/VdfTaskStatus.md)
 
 
