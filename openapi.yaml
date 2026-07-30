@@ -7,8 +7,19 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: http://127.0.0.1:16002/api
-    description: Local daemon API
+  - url: "{scheme}://{host}:{port}/api"
+    description: Kinetic daemon API — configure host and port at runtime
+    variables:
+      scheme:
+        default: http
+        enum: [http, https]
+        description: Transport scheme (http for local, https for remote/TLS deployments)
+      host:
+        default: "127.0.0.1"
+        description: Daemon bind address — override per deployment
+      port:
+        default: "16002"
+        description: Daemon API port — override per deployment
 components:
   securitySchemes:
     bearerAuth:

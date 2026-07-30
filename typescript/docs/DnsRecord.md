@@ -12,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { DnsRecord } from ''
+import type { DnsRecord } from 'kinetic-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

@@ -12,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ResolveKidDidGet200Response } from ''
+import type { ResolveKidDidGet200Response } from 'kinetic-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

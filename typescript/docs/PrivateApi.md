@@ -37,11 +37,11 @@ Requires Publish or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { CommitPostRequest } from '';
+} from 'kinetic-sdk';
+import type { CommitPostRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -108,11 +108,11 @@ Requires Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { ConfigGetRequest } from '';
+} from 'kinetic-sdk';
+import type { ConfigGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -171,11 +171,11 @@ Requires Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { ConfigPostOperationRequest } from '';
+} from 'kinetic-sdk';
+import type { ConfigPostOperationRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -242,11 +242,11 @@ Requires Publish or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { GossipPublishTopicPostRequest } from '';
+} from 'kinetic-sdk';
+import type { GossipPublishTopicPostRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -316,11 +316,11 @@ Requires Atlas or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { InternalAtlasSyncPostRequest } from '';
+} from 'kinetic-sdk';
+import type { InternalAtlasSyncPostRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -379,11 +379,11 @@ Requires Publish or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { OwnedNamesGetRequest } from '';
+} from 'kinetic-sdk';
+import type { OwnedNamesGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -442,11 +442,11 @@ Requires Governance or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { PublishGovernancePostRequest } from '';
+} from 'kinetic-sdk';
+import type { PublishGovernancePostRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -513,11 +513,11 @@ Requires Publish or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { PublishKidPostRequest } from '';
+} from 'kinetic-sdk';
+import type { PublishKidPostRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -584,11 +584,11 @@ Requires Publish or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { PublishManifestPostRequest } from '';
+} from 'kinetic-sdk';
+import type { PublishManifestPostRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -655,11 +655,11 @@ Requires Publish or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { PublishPostRequest } from '';
+} from 'kinetic-sdk';
+import type { PublishPostRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -726,11 +726,11 @@ Requires VDF or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { VdfRegisterPostRequest } from '';
+} from 'kinetic-sdk';
+import type { VdfRegisterPostRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -797,11 +797,11 @@ Requires VDF or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { VdfRenewPostRequest } from '';
+} from 'kinetic-sdk';
+import type { VdfRenewPostRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -868,11 +868,11 @@ Requires VDF or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { VdfStatusTaskIdDeleteRequest } from '';
+} from 'kinetic-sdk';
+import type { VdfStatusTaskIdDeleteRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -939,11 +939,11 @@ Requires VDF or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { VdfStatusTaskIdGetRequest } from '';
+} from 'kinetic-sdk';
+import type { VdfStatusTaskIdGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -1010,11 +1010,11 @@ Requires Publish or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { ZoneNamePostRequest } from '';
+} from 'kinetic-sdk';
+import type { ZoneNamePostRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",
@@ -1084,11 +1084,11 @@ Requires Publish or Admin role.
 import {
   Configuration,
   PrivateApi,
-} from '';
-import type { ZoneNamePublishPostRequest } from '';
+} from 'kinetic-sdk';
+import type { ZoneNamePublishPostRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const config = new Configuration({ 
     // Configure HTTP bearer authorization: bearerAuth
     accessToken: "YOUR BEARER TOKEN",

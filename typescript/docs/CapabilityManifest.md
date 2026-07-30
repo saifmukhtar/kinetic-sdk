@@ -16,7 +16,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { CapabilityManifest } from ''
+import type { CapabilityManifest } from 'kinetic-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

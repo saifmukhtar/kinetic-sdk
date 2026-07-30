@@ -28,11 +28,11 @@ Subscribe to a Gossipsub topic via Server-Sent Events (SSE)
 import {
   Configuration,
   PublicApi,
-} from '';
-import type { GossipSubscribeTopicGetRequest } from '';
+} from 'kinetic-sdk';
+import type { GossipSubscribeTopicGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const api = new PublicApi();
 
   const body = {
@@ -93,11 +93,11 @@ Get current governance state
 import {
   Configuration,
   PublicApi,
-} from '';
-import type { GovernanceGetRequest } from '';
+} from 'kinetic-sdk';
+import type { GovernanceGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const api = new PublicApi();
 
   try {
@@ -150,11 +150,11 @@ Get daemon health status
 import {
   Configuration,
   PublicApi,
-} from '';
-import type { HealthGetRequest } from '';
+} from 'kinetic-sdk';
+import type { HealthGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const api = new PublicApi();
 
   try {
@@ -207,11 +207,11 @@ Get network status
 import {
   Configuration,
   PublicApi,
-} from '';
-import type { NetworkStatusGetRequest } from '';
+} from 'kinetic-sdk';
+import type { NetworkStatusGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const api = new PublicApi();
 
   try {
@@ -264,11 +264,11 @@ Get local peer ID
 import {
   Configuration,
   PublicApi,
-} from '';
-import type { PeerIdGetRequest } from '';
+} from 'kinetic-sdk';
+import type { PeerIdGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const api = new PublicApi();
 
   try {
@@ -321,11 +321,11 @@ Resolve a KID
 import {
   Configuration,
   PublicApi,
-} from '';
-import type { ResolveKidDidGetRequest } from '';
+} from 'kinetic-sdk';
+import type { ResolveKidDidGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const api = new PublicApi();
 
   const body = {
@@ -386,11 +386,11 @@ Resolve a Kinetic name
 import {
   Configuration,
   PublicApi,
-} from '';
-import type { ResolveNameGetRequest } from '';
+} from 'kinetic-sdk';
+import type { ResolveNameGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const api = new PublicApi();
 
   const body = {
@@ -451,11 +451,11 @@ Get verified Kinetic network time
 import {
   Configuration,
   PublicApi,
-} from '';
-import type { TimeGetRequest } from '';
+} from 'kinetic-sdk';
+import type { TimeGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const api = new PublicApi();
 
   try {
@@ -508,11 +508,11 @@ Get local DNS zone file
 import {
   Configuration,
   PublicApi,
-} from '';
-import type { ZoneNameGetRequest } from '';
+} from 'kinetic-sdk';
+import type { ZoneNameGetRequest } from 'kinetic-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing kinetic-sdk SDK...");
   const api = new PublicApi();
 
   const body = {

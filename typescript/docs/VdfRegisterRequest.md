@@ -12,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { VdfRegisterRequest } from ''
+import type { VdfRegisterRequest } from 'kinetic-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

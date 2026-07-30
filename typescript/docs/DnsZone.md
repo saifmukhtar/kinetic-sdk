@@ -11,7 +11,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { DnsZone } from ''
+import type { DnsZone } from 'kinetic-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

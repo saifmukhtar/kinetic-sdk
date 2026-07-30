@@ -16,7 +16,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { PreviousProof } from ''
+import type { PreviousProof } from 'kinetic-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

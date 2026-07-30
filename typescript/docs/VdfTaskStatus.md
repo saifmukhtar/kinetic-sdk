@@ -14,7 +14,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { VdfTaskStatus } from ''
+import type { VdfTaskStatus } from 'kinetic-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
