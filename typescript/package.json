@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/saifmukhtar/kinetic-sdk.git",
+    "url": "git+https://github.com/saifmukhtar/kinetic-sdk.git",
     "directory": "typescript"
   },
   "homepage": "https://saifmukhtar.dev",
