@@ -12,18 +12,15 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct ConfigResponse {
-    #[serde(rename = "status")]
-    pub status: String,
-    #[serde(rename = "mode")]
-    pub mode: String,
+pub struct ListSessionsResponse {
+    #[serde(rename = "sessions")]
+    pub sessions: Vec<models::AppSession>,
 }
 
-impl ConfigResponse {
-    pub fn new(status: String, mode: String) -> ConfigResponse {
-        ConfigResponse {
-            status,
-            mode,
+impl ListSessionsResponse {
+    pub fn new(sessions: Vec<models::AppSession>) -> ListSessionsResponse {
+        ListSessionsResponse {
+            sessions,
         }
     }
 }

@@ -12,18 +12,15 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct ConfigResponse {
-    #[serde(rename = "status")]
-    pub status: String,
-    #[serde(rename = "mode")]
-    pub mode: String,
+pub struct NrsZone {
+    #[serde(rename = "records", skip_serializing_if = "Option::is_none")]
+    pub records: Option<std::collections::HashMap<String, Vec<models::NrsRecord>>>,
 }
 
-impl ConfigResponse {
-    pub fn new(status: String, mode: String) -> ConfigResponse {
-        ConfigResponse {
-            status,
-            mode,
+impl NrsZone {
+    pub fn new() -> NrsZone {
+        NrsZone {
+            records: None,
         }
     }
 }

@@ -15,10 +15,10 @@ use serde::{Deserialize, Serialize};
 pub struct PreviousProof {
     #[serde(rename = "salt")]
     pub salt: Vec<i32>,
-    #[serde(rename = "drand_pulse")]
-    pub drand_pulse: i32,
-    #[serde(rename = "drand_randomness")]
-    pub drand_randomness: String,
+    #[serde(rename = "kyn")]
+    pub kyn: i32,
+    #[serde(rename = "drand_signature")]
+    pub drand_signature: String,
     #[serde(rename = "iterations")]
     pub iterations: i32,
     #[serde(rename = "vdf_proof")]
@@ -28,11 +28,11 @@ pub struct PreviousProof {
 }
 
 impl PreviousProof {
-    pub fn new(salt: Vec<i32>, drand_pulse: i32, drand_randomness: String, iterations: i32, vdf_proof: models::VdfProof, signature: Vec<i32>) -> PreviousProof {
+    pub fn new(salt: Vec<i32>, kyn: i32, drand_signature: String, iterations: i32, vdf_proof: models::VdfProof, signature: Vec<i32>) -> PreviousProof {
         PreviousProof {
             salt,
-            drand_pulse,
-            drand_randomness,
+            kyn,
+            drand_signature,
             iterations,
             vdf_proof: Box::new(vdf_proof),
             signature,

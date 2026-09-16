@@ -111,7 +111,15 @@ impl From<&str> for ContentType {
     }
 }
 
-pub mod private_api;
-pub mod public_api;
+pub mod action_api;
+pub mod auth_api;
+pub mod consensus_api;
+pub mod gossip_api;
+pub mod heartbeat_api;
+pub mod kid_api;
+pub mod nrs_api;
+pub mod network_api;
+pub mod system_api;
+pub mod vdf_api;
 
 pub mod configuration;

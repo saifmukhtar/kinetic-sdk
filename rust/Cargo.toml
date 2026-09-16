@@ -1,11 +1,9 @@
 [package]
 name = "kinetic-sdk"
-version = "0.1.4"
-authors = ["Saif Mukhtar <saifmukhtar20@gmail.com>"]
+version = "0.1.5"
+authors = ["OpenAPI Generator team and contributors"]
 description = "The HTTP REST API exposed by the Kinetic Daemon for domain management, VDF proofs, and resolution."
-repository = "https://github.com/saifmukhtar/kinetic-sdk"
-homepage = "https://saifmukhtar.dev"
-license = "Apache-2.0"
+license = "Apache 2.0"
 edition = "2021"
 
 [dependencies]

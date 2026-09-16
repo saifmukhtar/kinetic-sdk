@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **name** | **String** |  | 
 **payload** | **Vec<i32>** |  | 
 **salt** | **Vec<i32>** |  | 
-**drand_pulse** | **i32** |  | 
-**drand_randomness** | **String** |  | 
+**kyn** | **i32** |  | 
+**drand_signature** | **String** |  | 
 **iterations** | **i32** |  | 
 **vdf_proof** | [**models::VdfProof**](VdfProof.md) |  | 
 **pubkey** | **Vec<i32>** |  | 

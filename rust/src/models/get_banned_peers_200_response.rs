@@ -12,18 +12,15 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct ConfigResponse {
-    #[serde(rename = "status")]
-    pub status: String,
-    #[serde(rename = "mode")]
-    pub mode: String,
+pub struct GetBannedPeers200Response {
+    #[serde(rename = "banned_peers", skip_serializing_if = "Option::is_none")]
+    pub banned_peers: Option<Vec<models::GetBannedPeers200ResponseBannedPeersInner>>,
 }
 
-impl ConfigResponse {
-    pub fn new(status: String, mode: String) -> ConfigResponse {
-        ConfigResponse {
-            status,
-            mode,
+impl GetBannedPeers200Response {
+    pub fn new() -> GetBannedPeers200Response {
+        GetBannedPeers200Response {
+            banned_peers: None,
         }
     }
 }

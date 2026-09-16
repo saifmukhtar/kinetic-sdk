@@ -12,18 +12,15 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct ConfigResponse {
-    #[serde(rename = "status")]
-    pub status: String,
-    #[serde(rename = "mode")]
-    pub mode: String,
+pub struct GetNetworkNat200Response {
+    #[serde(rename = "nat_status", skip_serializing_if = "Option::is_none")]
+    pub nat_status: Option<String>,
 }
 
-impl ConfigResponse {
-    pub fn new(status: String, mode: String) -> ConfigResponse {
-        ConfigResponse {
-            status,
-            mode,
+impl GetNetworkNat200Response {
+    pub fn new() -> GetNetworkNat200Response {
+        GetNetworkNat200Response {
+            nat_status: None,
         }
     }
 }

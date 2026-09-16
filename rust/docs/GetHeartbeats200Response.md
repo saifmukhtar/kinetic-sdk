@@ -1,15 +1,11 @@
-# PreviousProof
+# GetHeartbeats200Response
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**salt** | **Vec<i32>** |  | 
-**kyn** | **i32** |  | 
-**drand_signature** | **String** |  | 
-**iterations** | **i32** |  | 
-**vdf_proof** | [**models::VdfProof**](VdfProof.md) |  | 
-**signature** | **Vec<i32>** |  | 
+**current_kyn** | Option<**i32**> |  | [optional]
+**names** | Option<[**Vec<models::GetHeartbeats200ResponseNamesInner>**](GetHeartbeats200ResponseNamesInner.md)> |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
