@@ -210,7 +210,7 @@ pub async fn delete_vdf_task(configuration: &configuration::Configuration, task_
 }
 
 /// Requires Admin role.
-pub async fn get_config(configuration: &configuration::Configuration, ) -> Result<(), Error<GetConfigError>> {
+pub async fn get_config(configuration: &configuration::Configuration, ) -> Result<models::ConfigResponse, Error<GetConfigError>> {
 
     let uri_str = format!("{}/config", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -226,9 +226,20 @@ pub async fn get_config(configuration: &configuration::Configuration, ) -> Resul
     let resp = configuration.client.execute(req).await?;
 
     let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        Ok(())
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::ConfigResponse`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::ConfigResponse`")))),
+        }
     } else {
         let content = resp.text().await?;
         let entity: Option<GetConfigError> = serde_json::from_str(&content).ok();

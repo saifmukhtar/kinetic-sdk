@@ -6,6 +6,8 @@ pub mod capability_manifest;
 pub use self::capability_manifest::CapabilityManifest;
 pub mod commit_request;
 pub use self::commit_request::CommitRequest;
+pub mod config_response;
+pub use self::config_response::ConfigResponse;
 pub mod commitment;
 pub use self::commitment::Commitment;
 pub mod delete_vdf_task_200_response;
