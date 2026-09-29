@@ -10,12 +10,13 @@ Method | HTTP request | Description
 [**get_owned_names**](NrsApi.md#get_owned_names) | **GET** /api/v1/micro/nrs/owned | Get list of locally owned names [Private]
 [**get_reserved_names**](NrsApi.md#get_reserved_names) | **GET** /api/v1/micro/nrs/names/reserved | Get the list of all reserved names for the current network [Public]
 [**get_zone**](NrsApi.md#get_zone) | **GET** /api/v1/micro/nrs/zone/{name} | Get local NRS zone file [Public]
-[**post_fat_zone**](NrsApi.md#post_fat_zone) | **POST** /api/v1/micro/nrs/fat-zone/{name} | Publish a Fat NRS Zone Update using a delegated hot key [Private]
+[**post_nrs_update**](NrsApi.md#post_nrs_update) | **POST** /api/v1/micro/nrs/nrs-update/{name} | Publish a Fat NRS Zone Update using a delegated hot key [Private]
 [**publish_name**](NrsApi.md#publish_name) | **POST** /api/v1/micro/nrs/record/publish | Publish a name reveal to DHT [Private]
 [**publish_zone**](NrsApi.md#publish_zone) | **POST** /api/v1/micro/nrs/zone/{name}/publish | Cryptographically sign and publish local zone to DHT [Private]
 [**resolve_name**](NrsApi.md#resolve_name) | **GET** /api/v1/micro/nrs/resolve/{name} | Resolve a Kinetic name [Public]
 [**save_local_reserved_zone**](NrsApi.md#save_local_reserved_zone) | **POST** /api/v1/micro/nrs/zone/local/{name} | Save local NRS override for a reserved name [Private]
 [**save_zone**](NrsApi.md#save_zone) | **POST** /api/v1/micro/nrs/zone/{name} | Save local NRS zone file [Private]
+[**validate_name**](NrsApi.md#validate_name) | **POST** /api/v1/micro/nrs/validate | Validates domain syntax, LDH rules, and reserved categories [Public]
 [**verify_quorum**](NrsApi.md#verify_quorum) | **POST** /api/v1/micro/nrs/resolve/{name}/quorum | Verify how many nodes in the DHT have replicated a specific payload [Public]
 
 
@@ -188,9 +189,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## post_fat_zone
+## post_nrs_update
 
-> models::PublishResponse post_fat_zone(name, post_fat_zone_request)
+> models::PublishResponse post_nrs_update(name, post_nrs_update_request)
 Publish a Fat NRS Zone Update using a delegated hot key [Private]
 
 ### Parameters
@@ -199,7 +200,7 @@ Publish a Fat NRS Zone Update using a delegated hot key [Private]
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **name** | **String** |  | [required] |
-**post_fat_zone_request** | [**PostFatZoneRequest**](PostFatZoneRequest.md) |  | [required] |
+**post_nrs_update_request** | [**PostNrsUpdateRequest**](PostNrsUpdateRequest.md) |  | [required] |
 
 ### Return type
 
@@ -367,9 +368,37 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
+## validate_name
+
+> models::ValidateName200Response validate_name(validate_name_request)
+Validates domain syntax, LDH rules, and reserved categories [Public]
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**validate_name_request** | [**ValidateNameRequest**](ValidateNameRequest.md) |  | [required] |
+
+### Return type
+
+[**models::ValidateName200Response**](validateName_200_response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
 ## verify_quorum
 
-> models::VerifyQuorum200Response verify_quorum(name, body)
+> models::VerifyQuorum200Response verify_quorum(name, name_envelope)
 Verify how many nodes in the DHT have replicated a specific payload [Public]
 
 ### Parameters
@@ -378,7 +407,7 @@ Verify how many nodes in the DHT have replicated a specific payload [Public]
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **name** | **String** |  | [required] |
-**body** | **serde_json::Value** |  | [required] |
+**name_envelope** | [**NameEnvelope**](NameEnvelope.md) |  | [required] |
 
 ### Return type
 

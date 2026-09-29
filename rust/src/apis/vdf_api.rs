@@ -15,6 +15,27 @@ use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
 
+/// struct for typed errors of method [`delete_vdf_task`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeleteVdfTaskError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`get_takeover_iterations`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetTakeoverIterationsError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`get_vdf_iterations`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetVdfIterationsError {
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`get_vdf_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -43,6 +64,120 @@ pub enum VdfRenewError {
     UnknownValue(serde_json::Value),
 }
 
+
+/// Requires VDF or Admin role.
+pub async fn delete_vdf_task(configuration: &configuration::Configuration, task_id: &str) -> Result<models::DeleteVdfTask200Response, Error<DeleteVdfTaskError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_path_task_id = task_id;
+
+    let uri_str = format!("{}/api/v1/macro/status/{task_id}", configuration.base_path, task_id=crate::apis::urlencode(p_path_task_id));
+    let mut req_builder = configuration.client.request(reqwest::Method::DELETE, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(ref token) = configuration.bearer_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::DeleteVdfTask200Response`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::DeleteVdfTask200Response`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<DeleteVdfTaskError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub async fn get_takeover_iterations(configuration: &configuration::Configuration, name: &str, kyns_idle: i32) -> Result<models::GetTakeoverIterations200Response, Error<GetTakeoverIterationsError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_path_name = name;
+    let p_query_kyns_idle = kyns_idle;
+
+    let uri_str = format!("{}/api/v1/micro/vdf/takeover-iterations/{name}", configuration.base_path, name=crate::apis::urlencode(p_path_name));
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    req_builder = req_builder.query(&[("kyns_idle", &p_query_kyns_idle.to_string())]);
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::GetTakeoverIterations200Response`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::GetTakeoverIterations200Response`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<GetTakeoverIterationsError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub async fn get_vdf_iterations(configuration: &configuration::Configuration, name: &str) -> Result<models::GetVdfIterations200Response, Error<GetVdfIterationsError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_path_name = name;
+
+    let uri_str = format!("{}/api/v1/micro/vdf/iterations/{name}", configuration.base_path, name=crate::apis::urlencode(p_path_name));
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::GetVdfIterations200Response`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::GetVdfIterations200Response`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<GetVdfIterationsError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
 
 /// Requires VDF or Admin role.
 pub async fn get_vdf_status(configuration: &configuration::Configuration, task_id: &str) -> Result<models::VdfTaskStatus, Error<GetVdfStatusError>> {

@@ -1,10 +1,11 @@
-# NrsZone
+# NrsEntry
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**records** | Option<[**std::collections::HashMap<String, Vec<models::NrsEntry>>**](Vec.md)> |  | [optional]
+**r#type** | **Type** |  (enum: A, AAAA, CNAME, TXT, PeerId, KID) | 
+**value** | **String** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

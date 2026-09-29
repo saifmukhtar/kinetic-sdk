@@ -51,6 +51,8 @@ pub enum Scopes {
     System,
     #[serde(rename = "atlas")]
     Atlas,
+    #[serde(rename = "heartbeat")]
+    Heartbeat,
 }
 
 impl Default for Scopes {

@@ -5,7 +5,7 @@ All URIs are relative to *http://127.0.0.1:16002/api*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_heartbeats**](HeartbeatApi.md#get_heartbeats) | **GET** /api/v1/micro/nrs/heartbeats | Get the DHT heartbeat status of all locally owned names [Public]
-[**post_fat_heartbeat**](HeartbeatApi.md#post_fat_heartbeat) | **POST** /api/v1/micro/nrs/fat-heartbeat/{name} | Broadcast a Fat Heartbeat using a delegated hot key [Private]
+[**post_authorized_update**](HeartbeatApi.md#post_authorized_update) | **POST** /api/v1/micro/nrs/authorized-update/{name} | Broadcast a AuthorizedUpdate using a delegated hot key [Private]
 [**post_heartbeat**](HeartbeatApi.md#post_heartbeat) | **POST** /api/v1/micro/nrs/heartbeat/{name} | Manually broadcast a heartbeat to keep a name active [Private]
 
 
@@ -35,10 +35,12 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## post_fat_heartbeat
+## post_authorized_update
 
-> serde_json::Value post_fat_heartbeat(name, post_fat_heartbeat_request)
-Broadcast a Fat Heartbeat using a delegated hot key [Private]
+> serde_json::Value post_authorized_update(name, post_authorized_update_request)
+Broadcast a AuthorizedUpdate using a delegated hot key [Private]
+
+Requires Heartbeat or Admin role.
 
 ### Parameters
 
@@ -46,7 +48,7 @@ Broadcast a Fat Heartbeat using a delegated hot key [Private]
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **name** | **String** |  | [required] |
-**post_fat_heartbeat_request** | [**PostFatHeartbeatRequest**](PostFatHeartbeatRequest.md) |  | [required] |
+**post_authorized_update_request** | [**PostAuthorizedUpdateRequest**](PostAuthorizedUpdateRequest.md) |  | [required] |
 
 ### Return type
 
@@ -69,7 +71,7 @@ Name | Type | Description  | Required | Notes
 > models::PostHeartbeat200Response post_heartbeat(name)
 Manually broadcast a heartbeat to keep a name active [Private]
 
-Requires Nrs or Admin role.
+Requires Heartbeat or Admin role.
 
 ### Parameters
 

@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct NrsZone {
     #[serde(rename = "records", skip_serializing_if = "Option::is_none")]
-    pub records: Option<std::collections::HashMap<String, Vec<models::NrsRecord>>>,
+    pub records: Option<std::collections::HashMap<String, Vec<models::NrsEntry>>>,
 }
 
 impl NrsZone {

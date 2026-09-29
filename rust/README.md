@@ -27,19 +27,15 @@ All URIs are relative to *http://127.0.0.1:16002/api*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ActionApi* | [**get_action_status**](docs/ActionApi.md#get_action_status) | **GET** /api/v1/micro/action/status | Retrieves human-readable JSON of network action state, halts, and rules [Public]
-*ActionApi* | [**get_prime_names**](docs/ActionApi.md#get_prime_names) | **GET** /api/v1/micro/action/names | JSON list of 1-character prime names and controllers [Public]
-*ActionApi* | [**publish_action**](docs/ActionApi.md#publish_action) | **POST** /api/v1/micro/action/publish | Broadcast a signed network action (action proposal) [Private]
+*ActionApi* | [**publish_action**](docs/ActionApi.md#publish_action) | **POST** /api/v1/micro/action/publish | Broadcast a signed network action (action proposal) [Public]
 *AuthApi* | [**create_session**](docs/AuthApi.md#create_session) | **POST** /api/v1/micro/auth/session | Create a new persistent session token for an application [Private]
 *AuthApi* | [**list_sessions**](docs/AuthApi.md#list_sessions) | **GET** /api/v1/micro/auth/sessions | List all active application session tokens [Private]
 *AuthApi* | [**revoke_session**](docs/AuthApi.md#revoke_session) | **DELETE** /api/v1/micro/auth/session/{id} | Revoke an application session token using its ID [Private]
-*ConsensusApi* | [**get_consensus_difficulty**](docs/ConsensusApi.md#get_consensus_difficulty) | **GET** /api/v1/micro/consensus/difficulty/{name} | Pre-flight calculation of VDF time for new names [Public]
-*ConsensusApi* | [**get_takeover_difficulty**](docs/ConsensusApi.md#get_takeover_difficulty) | **GET** /api/v1/micro/consensus/takeover-difficulty/{name} | Calculates decay multiplier for taking over idle names [Public]
-*ConsensusApi* | [**validate_name**](docs/ConsensusApi.md#validate_name) | **POST** /api/v1/micro/consensus/validate | Validates domain syntax, LDH rules, and reserved categories [Public]
 *GossipApi* | [**get_gossip_topics**](docs/GossipApi.md#get_gossip_topics) | **GET** /api/v1/micro/gossip/topics | Retrieve a list of active Gossipsub topics [Public]
 *GossipApi* | [**gossip_publish**](docs/GossipApi.md#gossip_publish) | **POST** /api/v1/micro/gossip/publish/{topic} | Broadcast a payload to a Gossipsub topic [Private]
 *GossipApi* | [**gossip_subscribe**](docs/GossipApi.md#gossip_subscribe) | **GET** /api/v1/micro/gossip/subscribe/{topic} | Subscribe to a Gossipsub topic via Server-Sent Events (SSE) [Public]
 *HeartbeatApi* | [**get_heartbeats**](docs/HeartbeatApi.md#get_heartbeats) | **GET** /api/v1/micro/nrs/heartbeats | Get the DHT heartbeat status of all locally owned names [Public]
-*HeartbeatApi* | [**post_fat_heartbeat**](docs/HeartbeatApi.md#post_fat_heartbeat) | **POST** /api/v1/micro/nrs/fat-heartbeat/{name} | Broadcast a Fat Heartbeat using a delegated hot key [Private]
+*HeartbeatApi* | [**post_authorized_update**](docs/HeartbeatApi.md#post_authorized_update) | **POST** /api/v1/micro/nrs/authorized-update/{name} | Broadcast a AuthorizedUpdate using a delegated hot key [Private]
 *HeartbeatApi* | [**post_heartbeat**](docs/HeartbeatApi.md#post_heartbeat) | **POST** /api/v1/micro/nrs/heartbeat/{name} | Manually broadcast a heartbeat to keep a name active [Private]
 *KidApi* | [**fetch_kid**](docs/KidApi.md#fetch_kid) | **GET** /api/v1/micro/kid/{name} | Fetch details of a specific KID [Public]
 *KidApi* | [**fetch_kid_manifest**](docs/KidApi.md#fetch_kid_manifest) | **GET** /api/v1/micro/kid/{name}/manifest | Fetch the local manifest for a specific KID [Public]
@@ -57,12 +53,13 @@ Class | Method | HTTP request | Description
 *NrsApi* | [**get_owned_names**](docs/NrsApi.md#get_owned_names) | **GET** /api/v1/micro/nrs/owned | Get list of locally owned names [Private]
 *NrsApi* | [**get_reserved_names**](docs/NrsApi.md#get_reserved_names) | **GET** /api/v1/micro/nrs/names/reserved | Get the list of all reserved names for the current network [Public]
 *NrsApi* | [**get_zone**](docs/NrsApi.md#get_zone) | **GET** /api/v1/micro/nrs/zone/{name} | Get local NRS zone file [Public]
-*NrsApi* | [**post_fat_zone**](docs/NrsApi.md#post_fat_zone) | **POST** /api/v1/micro/nrs/fat-zone/{name} | Publish a Fat NRS Zone Update using a delegated hot key [Private]
+*NrsApi* | [**post_nrs_update**](docs/NrsApi.md#post_nrs_update) | **POST** /api/v1/micro/nrs/nrs-update/{name} | Publish a Fat NRS Zone Update using a delegated hot key [Private]
 *NrsApi* | [**publish_name**](docs/NrsApi.md#publish_name) | **POST** /api/v1/micro/nrs/record/publish | Publish a name reveal to DHT [Private]
 *NrsApi* | [**publish_zone**](docs/NrsApi.md#publish_zone) | **POST** /api/v1/micro/nrs/zone/{name}/publish | Cryptographically sign and publish local zone to DHT [Private]
 *NrsApi* | [**resolve_name**](docs/NrsApi.md#resolve_name) | **GET** /api/v1/micro/nrs/resolve/{name} | Resolve a Kinetic name [Public]
 *NrsApi* | [**save_local_reserved_zone**](docs/NrsApi.md#save_local_reserved_zone) | **POST** /api/v1/micro/nrs/zone/local/{name} | Save local NRS override for a reserved name [Private]
 *NrsApi* | [**save_zone**](docs/NrsApi.md#save_zone) | **POST** /api/v1/micro/nrs/zone/{name} | Save local NRS zone file [Private]
+*NrsApi* | [**validate_name**](docs/NrsApi.md#validate_name) | **POST** /api/v1/micro/nrs/validate | Validates domain syntax, LDH rules, and reserved categories [Public]
 *NrsApi* | [**verify_quorum**](docs/NrsApi.md#verify_quorum) | **POST** /api/v1/micro/nrs/resolve/{name}/quorum | Verify how many nodes in the DHT have replicated a specific payload [Public]
 *NetworkApi* | [**get_banned_peers**](docs/NetworkApi.md#get_banned_peers) | **GET** /api/v1/micro/network/peers/banned | List banned peers and strike counts [Public]
 *NetworkApi* | [**get_network_nat**](docs/NetworkApi.md#get_network_nat) | **GET** /api/v1/micro/network/nat | Check if the node's port is reachable or behind a strict NAT [Public]
@@ -79,6 +76,9 @@ Class | Method | HTTP request | Description
 *SystemApi* | [**system_restart**](docs/SystemApi.md#system_restart) | **POST** /api/v1/micro/system/restart | Restart the Kinetic daemon [Private]
 *SystemApi* | [**system_shutdown**](docs/SystemApi.md#system_shutdown) | **POST** /api/v1/micro/system/shutdown | Gracefully shut down the Kinetic daemon [Private]
 *SystemApi* | [**update_config**](docs/SystemApi.md#update_config) | **POST** /api/v1/micro/config | Update config [Private]
+*VdfApi* | [**delete_vdf_task**](docs/VdfApi.md#delete_vdf_task) | **DELETE** /api/v1/macro/status/{task_id} | Delete a VDF task from memory [Private]
+*VdfApi* | [**get_takeover_iterations**](docs/VdfApi.md#get_takeover_iterations) | **GET** /api/v1/micro/vdf/takeover-iterations/{name} | Calculates decay multiplier for taking over idle names [Public]
+*VdfApi* | [**get_vdf_iterations**](docs/VdfApi.md#get_vdf_iterations) | **GET** /api/v1/micro/vdf/iterations/{name} | Pre-flight calculation of VDF time for new names [Public]
 *VdfApi* | [**get_vdf_status**](docs/VdfApi.md#get_vdf_status) | **GET** /api/v1/macro/status/{task_id} | Get status of a VDF task [Private]
 *VdfApi* | [**get_vdf_tasks**](docs/VdfApi.md#get_vdf_tasks) | **GET** /api/v1/macro/tasks | Retrieve all active and completed background VDF tasks [Private]
 *VdfApi* | [**vdf_register**](docs/VdfApi.md#vdf_register) | **POST** /api/v1/macro/register | Start VDF name registration task [Private]
@@ -96,27 +96,29 @@ Class | Method | HTTP request | Description
  - [ConfigResponse](docs/ConfigResponse.md)
  - [CreateSession200Response](docs/CreateSession200Response.md)
  - [CreateSessionRequest](docs/CreateSessionRequest.md)
+ - [DeleteVdfTask200Response](docs/DeleteVdfTask200Response.md)
  - [GetActionStatus200Response](docs/GetActionStatus200Response.md)
  - [GetBannedPeers200Response](docs/GetBannedPeers200Response.md)
  - [GetBannedPeers200ResponseBannedPeersInner](docs/GetBannedPeers200ResponseBannedPeersInner.md)
- - [GetConsensusDifficulty200Response](docs/GetConsensusDifficulty200Response.md)
- - [GetConsensusDifficulty200ResponseLocalPrediction](docs/GetConsensusDifficulty200ResponseLocalPrediction.md)
- - [GetConsensusDifficulty200ResponseProtocol](docs/GetConsensusDifficulty200ResponseProtocol.md)
  - [GetHeartbeats200Response](docs/GetHeartbeats200Response.md)
  - [GetHeartbeats200ResponseNamesInner](docs/GetHeartbeats200ResponseNamesInner.md)
  - [GetNetworkNat200Response](docs/GetNetworkNat200Response.md)
  - [GetReservedNames200ResponseInner](docs/GetReservedNames200ResponseInner.md)
- - [GetTakeoverDifficulty200Response](docs/GetTakeoverDifficulty200Response.md)
+ - [GetTakeoverIterations200Response](docs/GetTakeoverIterations200Response.md)
+ - [GetVdfIterations200Response](docs/GetVdfIterations200Response.md)
+ - [GetVdfIterations200ResponseLocalPrediction](docs/GetVdfIterations200ResponseLocalPrediction.md)
+ - [GetVdfIterations200ResponseProtocol](docs/GetVdfIterations200ResponseProtocol.md)
  - [GetVdfTasks200ResponseValue](docs/GetVdfTasks200ResponseValue.md)
  - [KidDocument](docs/KidDocument.md)
  - [ListSessionsResponse](docs/ListSessionsResponse.md)
+ - [NameEnvelope](docs/NameEnvelope.md)
  - [NameRenewRequest](docs/NameRenewRequest.md)
- - [NrsRecord](docs/NrsRecord.md)
+ - [NrsEntry](docs/NrsEntry.md)
  - [NrsZone](docs/NrsZone.md)
+ - [PostAuthorizedUpdateRequest](docs/PostAuthorizedUpdateRequest.md)
  - [PostDnsFlush200Response](docs/PostDnsFlush200Response.md)
- - [PostFatHeartbeatRequest](docs/PostFatHeartbeatRequest.md)
- - [PostFatZoneRequest](docs/PostFatZoneRequest.md)
  - [PostHeartbeat200Response](docs/PostHeartbeat200Response.md)
+ - [PostNrsUpdateRequest](docs/PostNrsUpdateRequest.md)
  - [PreviousProof](docs/PreviousProof.md)
  - [PublishRequest](docs/PublishRequest.md)
  - [PublishResponse](docs/PublishResponse.md)

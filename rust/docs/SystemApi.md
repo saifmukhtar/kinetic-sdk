@@ -21,7 +21,7 @@ Method | HTTP request | Description
 > String get_ca_cert()
 Download the root CA certificate for local MITM proxy interception [Private]
 
-Requires System role.
+Requires System or Admin role.
 
 ### Parameters
 

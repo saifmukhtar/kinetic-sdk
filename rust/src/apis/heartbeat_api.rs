@@ -22,10 +22,10 @@ pub enum GetHeartbeatsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`post_fat_heartbeat`]
+/// struct for typed errors of method [`post_authorized_update`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PostFatHeartbeatError {
+pub enum PostAuthorizedUpdateError {
     UnknownValue(serde_json::Value),
 }
 
@@ -71,12 +71,13 @@ pub async fn get_heartbeats(configuration: &configuration::Configuration, ) -> R
     }
 }
 
-pub async fn post_fat_heartbeat(configuration: &configuration::Configuration, name: &str, post_fat_heartbeat_request: models::PostFatHeartbeatRequest) -> Result<serde_json::Value, Error<PostFatHeartbeatError>> {
+/// Requires Heartbeat or Admin role.
+pub async fn post_authorized_update(configuration: &configuration::Configuration, name: &str, post_authorized_update_request: models::PostAuthorizedUpdateRequest) -> Result<serde_json::Value, Error<PostAuthorizedUpdateError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_name = name;
-    let p_body_post_fat_heartbeat_request = post_fat_heartbeat_request;
+    let p_body_post_authorized_update_request = post_authorized_update_request;
 
-    let uri_str = format!("{}/api/v1/micro/nrs/fat-heartbeat/{name}", configuration.base_path, name=crate::apis::urlencode(p_path_name));
+    let uri_str = format!("{}/api/v1/micro/nrs/authorized-update/{name}", configuration.base_path, name=crate::apis::urlencode(p_path_name));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -85,7 +86,7 @@ pub async fn post_fat_heartbeat(configuration: &configuration::Configuration, na
     if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    req_builder = req_builder.json(&p_body_post_fat_heartbeat_request);
+    req_builder = req_builder.json(&p_body_post_authorized_update_request);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -107,12 +108,12 @@ pub async fn post_fat_heartbeat(configuration: &configuration::Configuration, na
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<PostFatHeartbeatError> = serde_json::from_str(&content).ok();
+        let entity: Option<PostAuthorizedUpdateError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-/// Requires Nrs or Admin role.
+/// Requires Heartbeat or Admin role.
 pub async fn post_heartbeat(configuration: &configuration::Configuration, name: &str) -> Result<models::PostHeartbeat200Response, Error<PostHeartbeatError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_name = name;

@@ -79,7 +79,7 @@ pub enum UpdateConfigError {
 }
 
 
-/// Requires System role.
+/// Requires System or Admin role.
 pub async fn get_ca_cert(configuration: &configuration::Configuration, ) -> Result<String, Error<GetCaCertError>> {
 
     let uri_str = format!("{}/api/v1/micro/system/ca-cert", configuration.base_path);
