@@ -574,10 +574,10 @@ pub async fn validate_name(configuration: &configuration::Configuration, validat
     }
 }
 
-pub async fn verify_quorum(configuration: &configuration::Configuration, name: &str, name_envelope: models::NameEnvelope) -> Result<models::VerifyQuorum200Response, Error<VerifyQuorumError>> {
+pub async fn verify_quorum(configuration: &configuration::Configuration, name: &str, body: serde_json::Value) -> Result<models::VerifyQuorum200Response, Error<VerifyQuorumError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_name = name;
-    let p_body_name_envelope = name_envelope;
+    let p_body_body = body;
 
     let uri_str = format!("{}/api/v1/micro/nrs/resolve/{name}/quorum", configuration.base_path, name=crate::apis::urlencode(p_path_name));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -585,7 +585,7 @@ pub async fn verify_quorum(configuration: &configuration::Configuration, name: &
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    req_builder = req_builder.json(&p_body_name_envelope);
+    req_builder = req_builder.json(&p_body_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

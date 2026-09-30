@@ -159,7 +159,9 @@ pub async fn fetch_kid_manifest(configuration: &configuration::Configuration, na
 }
 
 /// Requires Kid or Admin role.
-pub async fn generate_kid(configuration: &configuration::Configuration, ) -> Result<models::PublishResponse, Error<GenerateKidError>> {
+pub async fn generate_kid(configuration: &configuration::Configuration, generate_kid_request: models::GenerateKidRequest) -> Result<models::PublishResponse, Error<GenerateKidError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_body_generate_kid_request = generate_kid_request;
 
     let uri_str = format!("{}/api/v1/micro/kid/generate", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -170,6 +172,7 @@ pub async fn generate_kid(configuration: &configuration::Configuration, ) -> Res
     if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
+    req_builder = req_builder.json(&p_body_generate_kid_request);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

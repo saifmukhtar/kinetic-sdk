@@ -1,6 +1,6 @@
 [package]
 name = "kinetic-sdk"
-version = "0.1.5"
+version = "0.1.6"
 authors = ["Saif Mukhtar"]
 description = "The HTTP REST API exposed by the Kinetic Daemon for domain management, VDF proofs, and resolution."
 repository = "https://github.com/saifmukhtar/kinetic-sdk"

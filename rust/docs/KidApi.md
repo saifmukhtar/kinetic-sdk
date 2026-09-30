@@ -75,14 +75,17 @@ No authorization required
 
 ## generate_kid
 
-> models::PublishResponse generate_kid()
+> models::PublishResponse generate_kid(generate_kid_request)
 Generate a new KID [Private]
 
 Requires Kid or Admin role.
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**generate_kid_request** | [**GenerateKidRequest**](GenerateKidRequest.md) |  | [required] |
 
 ### Return type
 
@@ -94,7 +97,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

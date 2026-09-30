@@ -376,9 +376,9 @@ pub async fn system_shutdown(configuration: &configuration::Configuration, ) -> 
 }
 
 /// Requires System or Admin role.
-pub async fn update_config(configuration: &configuration::Configuration, update_config_request: models::UpdateConfigRequest) -> Result<(), Error<UpdateConfigError>> {
+pub async fn update_config(configuration: &configuration::Configuration, body: serde_json::Value) -> Result<(), Error<UpdateConfigError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_body_update_config_request = update_config_request;
+    let p_body_body = body;
 
     let uri_str = format!("{}/api/v1/micro/config", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -389,7 +389,7 @@ pub async fn update_config(configuration: &configuration::Configuration, update_
     if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    req_builder = req_builder.json(&p_body_update_config_request);
+    req_builder = req_builder.json(&p_body_body);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

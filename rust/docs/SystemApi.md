@@ -230,7 +230,7 @@ This endpoint does not need any parameter.
 
 ## update_config
 
-> update_config(update_config_request)
+> update_config(body)
 Update config [Private]
 
 Requires System or Admin role.
@@ -240,7 +240,7 @@ Requires System or Admin role.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**update_config_request** | [**UpdateConfigRequest**](UpdateConfigRequest.md) |  | [required] |
+**body** | **serde_json::Value** |  | [required] |
 
 ### Return type
 

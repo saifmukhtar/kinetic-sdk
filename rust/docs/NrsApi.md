@@ -398,7 +398,7 @@ No authorization required
 
 ## verify_quorum
 
-> models::VerifyQuorum200Response verify_quorum(name, name_envelope)
+> models::VerifyQuorum200Response verify_quorum(name, body)
 Verify how many nodes in the DHT have replicated a specific payload [Public]
 
 ### Parameters
@@ -407,7 +407,7 @@ Verify how many nodes in the DHT have replicated a specific payload [Public]
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **name** | **String** |  | [required] |
-**name_envelope** | [**NameEnvelope**](NameEnvelope.md) |  | [required] |
+**body** | **serde_json::Value** |  | [required] |
 
 ### Return type
 
